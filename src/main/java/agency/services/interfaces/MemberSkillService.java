@@ -10,4 +10,6 @@ public interface MemberSkillService {
 
      void updateMemberSkill(String email, HeistMemberDTO heistMemberDTO);
 
+     void deleteMemberSkillByMemberAndSkill(String memberName, String skillName);
+
 }

@@ -14,9 +14,6 @@ public class HeistMember {
     @ManyToOne
     private Skill mainSkill;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-//    private Set<MemberSkill> skills;
-
     @Id
     private String email;
     private String name;
@@ -31,14 +28,6 @@ public class HeistMember {
     public void setMainSkill(Skill mainSkill) {
         this.mainSkill = mainSkill;
     }
-
-//    public Set<MemberSkill> getSkills() {
-//        return skills;
-//    }
-//
-//    public void setSkills(Set<MemberSkill> skills) {
-//        this.skills = skills;
-//    }
 
     public String getEmail() {
         return email;

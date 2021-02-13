@@ -1,4 +1,4 @@
-package agency.entity;
+package agency.entity.composite_key;
 
 import java.io.Serializable;
 

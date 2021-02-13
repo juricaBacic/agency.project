@@ -85,5 +85,14 @@ public class HeistMemberController {
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
+    @DeleteMapping("/member/{email}/skills/{skillName}")
+    public ResponseEntity<MemberSkillDTO> updateMemberSkills (@PathVariable String email,@PathVariable String skillName ) throws URISyntaxException{
+
+        memberSkillService.deleteMemberSkillByMemberAndSkill(email, skillName);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+    }
 
 }

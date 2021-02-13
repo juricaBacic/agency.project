@@ -1,5 +1,7 @@
 package agency.entity;
 
+import agency.entity.composite_key.MemberSkillId;
+
 import javax.persistence.*;
 
 @Entity

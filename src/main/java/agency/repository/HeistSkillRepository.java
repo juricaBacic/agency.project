@@ -1,10 +1,12 @@
 package agency.repository;
 
-import agency.entity.HeistMember;
-import agency.entity.Skill;
+import agency.entity.HeistSkill;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SkillRepository extends JpaRepository<Skill, String> {
+public interface HeistSkillRepository extends JpaRepository<HeistSkill, Long > {
+
+
+
 }

@@ -5,6 +5,8 @@ import agency.repository.HeistMemberRepository;
 import agency.services.interfaces.HeistMemberService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class HeistMemberServiceImpl implements HeistMemberService {
 
@@ -19,5 +21,11 @@ public class HeistMemberServiceImpl implements HeistMemberService {
 
         return heistMemberRepository.save(heistMember);
 
+    }
+
+    @Override
+    public Optional<HeistMember> findHeistMemberById(String memberId) {
+
+        return heistMemberRepository.findById(memberId);
     }
 }
