@@ -1,11 +1,10 @@
 package agency.entity;
 
-import agency.dto.MemberSkillDTO;
 import agency.enumeration.Sex;
 import agency.enumeration.Status;
 
 import javax.persistence.*;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "heist_member")
@@ -13,11 +12,12 @@ public class HeistMember {
 
     @ManyToOne
     private Skill mainSkill;
-
     @Id
     private String email;
     private String name;
+    @Enumerated(EnumType.STRING)
     private Sex sex;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
 

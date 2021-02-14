@@ -1,12 +1,10 @@
 package agency.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
 public class HeistDTO {
-
 
     private String name;
     private String location;

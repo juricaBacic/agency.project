@@ -53,11 +53,11 @@ public class MemberSkillServiceImpl implements MemberSkillService {
                 MemberSkill memberSkill = new MemberSkill();
                 memberSkill.setLevel(memberSkillDTO.getLevel());
                 memberSkill.setSkill(skill);
+
+
                 HeistMember heistMember = optionalHeistMember.get();
                 memberSkill.setMember(heistMember);
-
                 heistMember.setMainSkill(skillService.findSkillById(memberSkillDTO.getName()).get());
-
 
                 saveMemberSkill(memberSkill);
 

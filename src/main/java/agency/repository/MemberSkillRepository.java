@@ -11,5 +11,5 @@ public interface MemberSkillRepository extends JpaRepository<MemberSkill, Long> 
 
     int deleteMemberSkillByMemberAndSkill(HeistMember member, Skill skill);
 
-    MemberSkill findMemberSkillsByMemberAndSkill(HeistMember member, Skill skill);
+
 }

@@ -3,25 +3,21 @@ package agency.controller;
 import agency.dto.HeistDTO;
 import agency.dto.HeistMemberDTO;
 import agency.dto.HeistSkillDTO;
-import agency.dto.MemberSkillDTO;
 import agency.entity.*;
-import agency.repository.HeistSkillRepository;
 import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-@Controller
+@RestController
 public class HeistController {
 
     private HeistService heistService;
@@ -72,5 +68,17 @@ public class HeistController {
 
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/heist/{name}/skills")
+    public ResponseEntity<HeistSkillDTO> updateHeistSkills (@RequestBody HeistDTO heistDTO, @PathVariable String name) throws URISyntaxException{
+
+        heistSkillService.updateHeistSkill(heistDTO,name);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(new URI("/member/" + heistDTO.getName() +  "/skills"));
+
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+
     }
 }

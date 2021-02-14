@@ -2,7 +2,6 @@ package agency.controller;
 
 import agency.dto.HeistMemberDTO;
 import agency.dto.MemberSkillDTO;
-import agency.dto.SkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.MemberSkill;
 import agency.entity.Skill;
@@ -14,13 +13,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
-@Controller
+@RestController
 public class HeistMemberController {
 
 
@@ -55,7 +54,16 @@ public class HeistMemberController {
             skillService.saveSkill(skill);
         }
 
-        HeistMember member = heistMemberService.saveHeistMember(modelMapper.map(heistMemberDTO, HeistMember.class));
+       // HeistMember member = heistMemberService.saveHeistMember(modelMapper.map(heistMemberDTO, HeistMember.class));
+
+        HeistMember heistMember = new HeistMember();
+        heistMember.setEmail(heistMemberDTO.getEmail());
+        heistMember.setName(heistMemberDTO.getName());
+        heistMember.setSex(heistMemberDTO.getSex());
+        heistMember.setStatus(heistMemberDTO.getStatus());
+        heistMember.setMainSkill(new Skill(heistMemberDTO.getMainSkill()));
+
+        HeistMember member = heistMemberService.saveHeistMember(heistMember);
 
         heistMemberDTO.getSkills().forEach(memberSkillDTO -> {
             Skill skill = new Skill();
@@ -67,6 +75,7 @@ public class HeistMemberController {
             memberSkill.setMember(member);
 
             memberSkillService.saveMemberSkill(memberSkill);
+
         });
 
         HttpHeaders headers = new HttpHeaders();
@@ -84,7 +93,9 @@ public class HeistMemberController {
         headers.setLocation(new URI("/member/" + heistMemberDTO.getEmail() +  "/skills"));
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+
     }
+
     @DeleteMapping("/member/{email}/skills/{skillName}")
     public ResponseEntity<MemberSkillDTO> updateMemberSkills (@PathVariable String email,@PathVariable String skillName ) throws URISyntaxException{
 
@@ -93,6 +104,20 @@ public class HeistMemberController {
         HttpHeaders headers = new HttpHeaders();
 
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/heist/{email}/eligible_members")
+    public HeistMember findHeistMemberByStatusAndId(@PathVariable String  email){
+
+        return  heistMemberService.findHeistMemberByStatusAndId(email).get();
+
+    }
+
+    @GetMapping("/heist/{email}")
+    public Optional<HeistMember> findHeistMemberById(@PathVariable String  email){
+
+        return  heistMemberService.findHeistMemberByStatusAndId(email);
+
     }
 
 }
