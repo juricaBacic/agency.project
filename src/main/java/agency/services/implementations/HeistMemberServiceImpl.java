@@ -40,7 +40,7 @@ public class HeistMemberServiceImpl implements HeistMemberService {
     public Optional<HeistMember>findHeistMemberByStatusAndId(String email) {
 
         if (heistMemberRepository.findById(email).get().getStatus().equals(Status.AVAILABLE) || heistMemberRepository.findById(email).get().getStatus().equals(Status.EXPIRED)) {
-            System.out.println("Ispunio je uvijet i usao u loop");
+
          return heistMemberRepository.findById(email);
 
         }

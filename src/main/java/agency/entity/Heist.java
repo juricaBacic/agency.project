@@ -1,8 +1,8 @@
 package agency.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import agency.enumeration.Status;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,6 +18,18 @@ public class Heist {
 
     @Column(name = "end_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime endTime;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.PLANNING;
+
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;
@@ -50,4 +62,5 @@ public class Heist {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+
 }

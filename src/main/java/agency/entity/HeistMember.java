@@ -12,6 +12,7 @@ public class HeistMember {
 
     @ManyToOne
     private Skill mainSkill;
+
     @Id
     private String email;
     private String name;

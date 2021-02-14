@@ -54,8 +54,6 @@ public class HeistMemberController {
             skillService.saveSkill(skill);
         }
 
-       // HeistMember member = heistMemberService.saveHeistMember(modelMapper.map(heistMemberDTO, HeistMember.class));
-
         HeistMember heistMember = new HeistMember();
         heistMember.setEmail(heistMemberDTO.getEmail());
         heistMember.setName(heistMemberDTO.getName());
