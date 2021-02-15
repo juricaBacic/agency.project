@@ -1,7 +1,6 @@
 package agency.services.interfaces;
 
 import agency.dto.HeistDTO;
-import agency.entity.Heist;
 import agency.entity.HeistSkill;
 
 public interface HeistSkillService {

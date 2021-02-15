@@ -1,7 +1,12 @@
 package agency.services.implementations;
 
+import agency.dto.HeistDTO;
 import agency.dto.HeistMemberDTO;
+import agency.dto.HeistSkillDTO;
+import agency.entity.Heist;
 import agency.entity.HeistMember;
+import agency.entity.HeistSkill;
+import agency.entity.Skill;
 import agency.enumeration.Status;
 import agency.repository.HeistMemberRepository;
 import agency.services.interfaces.HeistMemberService;
@@ -15,16 +20,13 @@ public class HeistMemberServiceImpl implements HeistMemberService {
     private HeistMemberRepository heistMemberRepository;
 
 
-
-
-
-
     public HeistMemberServiceImpl(HeistMemberRepository heistMemberRepository) {
         this.heistMemberRepository = heistMemberRepository;
     }
 
     @Override
     public HeistMember saveHeistMember(HeistMember heistMember) {
+
 
         return heistMemberRepository.save(heistMember);
 

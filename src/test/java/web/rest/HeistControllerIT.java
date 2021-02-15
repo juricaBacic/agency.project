@@ -9,9 +9,11 @@ import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -23,42 +25,35 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import javax.xml.validation.Validator;
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
 public class HeistControllerIT {
 
+    @Autowired
     private HeistService heistService;
+    @Autowired
     private SkillService skillService;
+    @Autowired
     private HeistSkillService heistSkillService;
+    @Autowired
     private PageableHandlerMethodArgumentResolver pageableArgumentResolver;
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
+
     private Validator validator;
     private MockMvc heistControllerMvc;
+    @Autowired
     private HeistRepository heistRepository;
 
     private LocalDateTime START_DATE_TIME = LocalDateTime.of(2020, 5, 15, 12, 10, 1);
     private LocalDateTime END_DATE_TIME = LocalDateTime.of(2020, 5, 16, 11, 15, 35);
 
 
-    public HeistControllerIT(HeistService heistService, SkillService skillService, HeistSkillService heistSkillService, PageableHandlerMethodArgumentResolver pageableArgumentResolver,
-                             MappingJackson2HttpMessageConverter jacksonMessageConverter, Validator validator, MockMvc heistControllerMvc, HeistRepository heistRepository) {
-
-        this.heistService = heistService;
-        this.skillService = skillService;
-        this.heistSkillService = heistSkillService;
-        this.pageableArgumentResolver = pageableArgumentResolver;
-        this.jacksonMessageConverter = jacksonMessageConverter;
-        this.validator = validator;
-        this.heistControllerMvc = heistControllerMvc;
-        this.heistRepository = heistRepository;
-
-    }
 
     @BeforeEach
     public void setup() throws Exception {
@@ -92,7 +87,7 @@ public class HeistControllerIT {
 
         heistRepository.saveAndFlush(addNewHeist());
 
-        ResultActions actions = heistControllerMvc.perform(MockMvcRequestBuilders.get("localhost:8080/heist"))
+        ResultActions actions = heistControllerMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/heist"))
                 .andDo(print());
 
         actions.andExpect(status().isOk())
@@ -104,27 +99,4 @@ public class HeistControllerIT {
 
     }
 
-    @Test
-    void checkIsHeistSavedTest() {
-
-        Optional<Heist> heistFind = heistRepository.findById("Fábrica Nacional de Moneda y Timbre");
-
-        Heist heistCustom = new Heist();
-
-        heistCustom.setName("Bank of Madrid");
-        heistCustom.setStatus(Status.AVAILABLE);
-        heistCustom.setLocation("Madrid");
-        heistCustom.setStartTime(START_DATE_TIME);
-        heistCustom.setEndTime(END_DATE_TIME);
-
-        Heist hst = heistRepository.save(heistCustom);
-
-        Assert.assertNotNull(heistFind);
-        Assert.assertEquals(hst.getName(), heistCustom.getName());
-        Assert.assertEquals(hst.getStartTime(), heistCustom.getStartTime());
-        Assert.assertEquals(hst.getLocation(), heistCustom.getLocation());
-        Assert.assertEquals(hst.getStatus(), heistCustom.getStatus());
-
-
-    }
 }

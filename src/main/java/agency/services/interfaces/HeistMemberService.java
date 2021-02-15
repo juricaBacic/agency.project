@@ -1,5 +1,6 @@
 package agency.services.interfaces;
 
+import agency.dto.HeistDTO;
 import agency.dto.HeistMemberDTO;
 import agency.entity.HeistMember;
 
