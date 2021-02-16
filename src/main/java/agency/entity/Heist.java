@@ -4,6 +4,8 @@ import agency.enumeration.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
+
 
 @Entity
 public class Heist {
@@ -12,6 +14,11 @@ public class Heist {
     private String name;
 
     private String location;
+
+    @ManyToMany
+    @JoinTable(name = "confirmed_members",
+            joinColumns = {@JoinColumn (name = "name" )}, inverseJoinColumns = {@JoinColumn (name = "email")})
+    private Set<HeistMember> heistMembers;
 
     @Column(name = "start_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime startTime;
@@ -22,13 +29,12 @@ public class Heist {
     @Enumerated(EnumType.STRING)
     private Status status = Status.PLANNING;
 
-
-    public Status getStatus() {
-        return status;
+    public Set<HeistMember> getHeistMembers() {
+        return heistMembers;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setHeistMembers(Set<HeistMember> heistMembers) {
+        this.heistMembers = heistMembers;
     }
 
     public String getName() {
@@ -63,4 +69,11 @@ public class Heist {
         this.endTime = endTime;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

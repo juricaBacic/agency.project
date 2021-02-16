@@ -27,7 +27,7 @@ public class HeistUnitTest {
     @Test
     void checkIsHeistSavedTest() {
 
-        Optional<Heist> heistFind = heistRepository.findById("Fábrica Nacional de Moneda y Timbre");
+        Heist heistFind = heistRepository.findById("Bank of Madrid").get();
 
         System.out.println(heistFind);
 

@@ -4,6 +4,7 @@ import agency.dto.HeistDTO;
 import agency.dto.HeistMemberDTO;
 import agency.dto.HeistSkillDTO;
 import agency.entity.*;
+import agency.services.implementations.HeistStartManuallyImpl;
 import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
@@ -23,40 +24,20 @@ public class HeistController {
     private HeistService heistService;
     private SkillService skillService;
     private HeistSkillService heistSkillService;
+    private HeistStartManuallyImpl heistStartManually;
 
-    public HeistController(HeistService heistService, SkillService skillService,  HeistSkillService heistSkillService) {
+    public HeistController(HeistService heistService, SkillService skillService, HeistSkillService heistSkillService, HeistStartManuallyImpl heistStartManually) {
         this.heistService = heistService;
         this.skillService = skillService;
         this.heistSkillService = heistSkillService;
+        this.heistStartManually = heistStartManually;
     }
 
+
     @PostMapping("/heist")
-    public ResponseEntity<HeistMemberDTO> savePotentialHeistMember(@RequestBody HeistDTO heistDTO) throws URISyntaxException {
+    public ResponseEntity<Heist> saveHeist(@RequestBody HeistDTO heistDTO) throws URISyntaxException {
 
-        Heist heist = new Heist();
-
-        heist.setName(heistDTO.getName());
-        heist.setLocation(heistDTO.getLocation());
-        heist.setEndTime(heistDTO.getEndTime());
-        heist.setStartTime(heistDTO.getStartTime());
-
-        heistService.saveHeist(heist);
-
-
-        for (HeistSkillDTO heistSkillDTO : heistDTO.getSkills()) {
-            Skill skill = new Skill();
-            skill.setName(heistSkillDTO.getName());
-            skillService.saveSkill(skill);
-
-            HeistSkill heistSkill = new HeistSkill();
-            heistSkill.setHeist(heist);
-            heistSkill.setLevel(heistSkillDTO.getLevel());
-            heistSkill.setMember(heistSkillDTO.getMembers());
-            heistSkill.setSkill(skill);
-
-            heistSkillService.saveHeistSkill(heistSkill);
-
-        }
+        Heist heist = heistService.saveHeist(heistDTO);
 
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -79,6 +60,15 @@ public class HeistController {
         headers.setLocation(new URI("/member/" + heistDTO.getName() +  "/skills"));
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+
+    }
+
+    @PutMapping("/heist/{name}/start")
+    public ResponseEntity<HeistSkillDTO> startHeistManually (@PathVariable String name) throws URISyntaxException{
+
+        heistStartManually.startHeistManually(name);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 }

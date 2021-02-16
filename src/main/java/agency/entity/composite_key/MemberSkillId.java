@@ -3,6 +3,7 @@ package agency.entity.composite_key;
 import java.io.Serializable;
 
 public class MemberSkillId implements Serializable {
+
     private String member;
     private String skill;
 

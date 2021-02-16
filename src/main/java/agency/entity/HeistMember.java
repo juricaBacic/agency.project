@@ -4,6 +4,7 @@ import agency.enumeration.Sex;
 import agency.enumeration.Status;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -13,6 +14,9 @@ public class HeistMember {
     @ManyToOne
     private Skill mainSkill;
 
+    @ManyToMany(mappedBy = "heistMembers")
+    private Set<Heist> heists;
+
     @Id
     private String email;
     private String name;
@@ -21,6 +25,13 @@ public class HeistMember {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    public Set<Heist> getHeists() {
+        return heists;
+    }
+
+    public void setHeists(Set<Heist> heists) {
+        this.heists = heists;
+    }
 
     public Skill getMainSkill() {
         return mainSkill;

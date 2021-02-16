@@ -1,6 +1,8 @@
 package agency.dto;
 
 
+import agency.entity.HeistMember;
+
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -11,15 +13,8 @@ public class HeistDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Set<HeistSkillDTO> skills;
+    private Set<HeistMember> heistMembers;
 
-
-    public Set<HeistSkillDTO> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(Set<HeistSkillDTO> skills) {
-        this.skills = skills;
-    }
 
     public String getName() {
         return name;
@@ -52,4 +47,21 @@ public class HeistDTO {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+
+    public Set<HeistSkillDTO> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<HeistSkillDTO> skills) {
+        this.skills = skills;
+    }
+
+    public Set<HeistMember> getHeistMembers() {
+        return heistMembers;
+    }
+
+    public void setHeistMembers(Set<HeistMember> heistMembers) {
+        this.heistMembers = heistMembers;
+    }
+
 }

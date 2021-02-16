@@ -1,10 +1,13 @@
 package agency.controller;
 
+import agency.dto.CheckAndConfirmForHeistDTO;
+import agency.dto.EligibleMembersDTO;
 import agency.dto.HeistMemberDTO;
 import agency.dto.MemberSkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.MemberSkill;
 import agency.entity.Skill;
+import agency.services.interfaces.CheckMembersForConfirmService;
 import agency.services.interfaces.HeistMemberService;
 import agency.services.interfaces.MemberSkillService;
 import agency.services.interfaces.SkillService;
@@ -14,9 +17,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.yaml.snakeyaml.util.UriEncoder;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.Optional;
 
 @RestController
@@ -27,13 +31,16 @@ public class HeistMemberController {
     private HeistMemberService heistMemberService;
     private MemberSkillService memberSkillService;
     private SkillService skillService;
+    private CheckMembersForConfirmService checkMembersForConfirmService;
 
 
-    public HeistMemberController(ModelMapper modelMapper, HeistMemberService heistMemberService, SkillService skillService, MemberSkillService memberSkillService) {
+    public HeistMemberController(ModelMapper modelMapper, HeistMemberService heistMemberService, SkillService skillService,
+                                 MemberSkillService memberSkillService,CheckMembersForConfirmService checkMembersForConfirmService) {
         this.modelMapper = modelMapper;
         this.heistMemberService = heistMemberService;
         this.skillService = skillService;
         this.memberSkillService = memberSkillService;
+        this.checkMembersForConfirmService = checkMembersForConfirmService;
 
         Converter<String, Skill> skillConverter = mappingContext -> {
             Skill skill = new Skill();
@@ -104,18 +111,30 @@ public class HeistMemberController {
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/heist/{email}/eligible_members")
-    public HeistMember findHeistMemberByStatusAndId(@PathVariable String  email){
-
-        return  heistMemberService.findHeistMemberByStatusAndId(email).get();
-
-    }
-
     @GetMapping("/heist/{email}")
     public Optional<HeistMember> findHeistMemberById(@PathVariable String  email){
 
         return  heistMemberService.findHeistMemberByStatusAndId(email);
 
+    }
+    @GetMapping("/heist/{name}/eligible_members")
+    public EligibleMembersDTO findEligibleHeistMember(@PathVariable String  name){
+
+        return  heistMemberService.findEligibleHeistMember(name);
+
+    }
+
+    @PutMapping("/heist/{name}/members")
+    public ResponseEntity<String> checkMembersForHeist (@RequestBody CheckAndConfirmForHeistDTO members, @PathVariable String name) throws URISyntaxException{
+
+
+        HttpStatus status = checkMembersForConfirmService.checkHeistMembers(members.getMembers(), name);
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(new URI("/heist/" + UriEncoder.encode(name) +  "/members"));
+
+        return new ResponseEntity<>(headers, status);
     }
 
 }

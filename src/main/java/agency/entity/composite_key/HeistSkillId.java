@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 public class HeistSkillId implements Serializable {
 
-    private String skill;
 
+    private String skill;
     private String heist;
+
 
     public String getSkill() {
         return skill;
