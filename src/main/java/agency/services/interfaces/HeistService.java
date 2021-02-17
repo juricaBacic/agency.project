@@ -11,4 +11,6 @@ public interface HeistService {
  Heist saveHeist(HeistDTO heistDTO);
 
  Optional<Heist> getHeistById(String name);
+
+ Optional<Heist> getHeistWithNameStatusANdSkillsByName(String name);
 }

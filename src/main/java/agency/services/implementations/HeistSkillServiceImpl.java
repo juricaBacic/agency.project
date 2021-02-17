@@ -6,14 +6,17 @@ import agency.entity.Heist;
 import agency.entity.HeistMember;
 import agency.entity.HeistSkill;
 import agency.entity.Skill;
+import agency.enumeration.Status;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
 import org.springframework.expression.spel.ast.OpAnd;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class HeistSkillServiceImpl implements HeistSkillService {
@@ -63,5 +66,24 @@ public class HeistSkillServiceImpl implements HeistSkillService {
 
             });
         }
+    }
+
+    @Override
+    public Set<HeistSkill> heistSkillByHeistId(String name) {
+
+        Optional<Heist> findHeistByName = heistRepository.findById(name);
+
+        if (findHeistByName.isPresent()){
+
+            Set<HeistSkill> heistSkillByHeist_name = heistSkillRepository.findHeistSkillByHeist_Name(name);
+
+            return heistSkillByHeist_name;
+
+        }
+
+
+       return null;
+
+
     }
 }

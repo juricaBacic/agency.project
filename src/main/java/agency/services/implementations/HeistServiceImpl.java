@@ -63,5 +63,13 @@ public class HeistServiceImpl  implements HeistService {
 
     }
 
+    @Override
+    public Optional<Heist>getHeistWithNameStatusANdSkillsByName(String name) {
+
+        Optional<Heist> heistById = heistRepository.findById(name);
+
+        return heistById;
+    }
+
 
 }

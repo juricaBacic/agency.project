@@ -81,9 +81,9 @@ public class MemberSkillServiceImpl implements MemberSkillService {
     }
 
     @Override
-    public Optional<MemberSkill> getMemberSkillByMemberId(String email) {
+    public Set<MemberSkill> getMemberSkillByMemberId(String email) {
 
-        Optional<MemberSkill> memberSkillByMemberEmail = memberSkillRepository.findMemberSkillByMemberEmail(email);
+        Set<MemberSkill> memberSkillByMemberEmail = memberSkillRepository.findMemberSkillsByMemberEmail(email);
 
         return memberSkillByMemberEmail;
     }

@@ -16,6 +16,6 @@ public interface MemberSkillRepository extends JpaRepository<MemberSkill, Long> 
 
     Set<MemberSkill> findMemberSkillsByMember(HeistMember heistMember);
 
-    Set<MemberSkill> findMemberSkillByMemberEmail(String email);
+    Set<MemberSkill> findMemberSkillsByMemberEmail(String email);
 
 }

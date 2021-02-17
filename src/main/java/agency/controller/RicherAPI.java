@@ -6,6 +6,7 @@ import agency.dto.HeistSkillDTO;
 import agency.dto.MemberSkillDTO;
 import agency.entity.Heist;
 import agency.entity.HeistMember;
+import agency.entity.HeistSkill;
 import agency.entity.MemberSkill;
 import agency.services.converters.HeistConverter;
 import agency.services.converters.HeistMemberConverter;
@@ -13,12 +14,15 @@ import agency.services.converters.HeistSkillConverter;
 import agency.services.converters.MemberSkillConverter;
 import agency.services.interfaces.HeistMemberService;
 import agency.services.interfaces.HeistService;
+import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.MemberSkillService;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URISyntaxException;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,9 +36,10 @@ public class RicherAPI {
     HeistConverter heistConverter;
     MemberSkillService memberSkillService;
     MemberSkillConverter memberSkillConverter;
+    HeistSkillService heistSkillService;
 
-    public RicherAPI(HeistMemberService heistMemberService, HeistMemberConverter heistMemberConverter, HeistSkillConverter heistSkillConverter, HeistService heistService,
-                     HeistConverter heistConverter, MemberSkillService memberSkillService, MemberSkillConverter memberSkillConverter) {
+    public RicherAPI(HeistMemberService heistMemberService, HeistMemberConverter heistMemberConverter, HeistSkillConverter heistSkillConverter, HeistService heistService, HeistConverter heistConverter,
+                     MemberSkillService memberSkillService, MemberSkillConverter memberSkillConverter, HeistSkillService heistSkillService) {
         this.heistMemberService = heistMemberService;
         this.heistMemberConverter = heistMemberConverter;
         this.heistSkillConverter = heistSkillConverter;
@@ -42,6 +47,7 @@ public class RicherAPI {
         this.heistConverter = heistConverter;
         this.memberSkillService = memberSkillService;
         this.memberSkillConverter = memberSkillConverter;
+        this.heistSkillService = heistSkillService;
     }
 
     @GetMapping("/member/{email}")
@@ -72,15 +78,54 @@ public class RicherAPI {
     }
 
     @GetMapping("/member/api/{email}/skills")
-    public MemberSkillDTO getMemberSkillsById(@PathVariable String email, HttpServletResponse response) throws URISyntaxException {
+    public Set<MemberSkillDTO> getMemberSkillsById(@PathVariable String email, HttpServletResponse response) throws URISyntaxException {
 
-        Optional<MemberSkill> memberSkillsByMemberId = memberSkillService.getMemberSkillByMemberId(email);
+        Set<MemberSkill> memberSkillsByMemberId = memberSkillService.getMemberSkillByMemberId(email);
+        Set<MemberSkillDTO> memberSkillDTOS = new HashSet<>();
 
-        if (memberSkillsByMemberId.isPresent()) {
+        if (!CollectionUtils.isEmpty(memberSkillsByMemberId)) {
             response.setStatus(200);
-            return memberSkillConverter.toDto(memberSkillsByMemberId.get());
+            for (MemberSkill memberSkill : memberSkillsByMemberId)
+            {
+                memberSkillDTOS.add(memberSkillConverter.toDto(memberSkill));
+            }
+
+            return memberSkillDTOS;
         }
         response.setStatus(404);
+        return null;
+    }
+    @GetMapping("/heist/api/{name}/members")
+    public HeistDTO getHeistWithNameStatusANdSkillsByName(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
+
+        Optional<Heist> heistOptional = heistService.getHeistWithNameStatusANdSkillsByName(name);
+
+        if (heistOptional.isPresent()) {
+            response.setStatus(200);
+
+            return heistConverter.toDtoForNameSkillAndStatus(heistOptional.get());
+        }
+        response.setStatus(404);
+        return null;
+    }
+    @GetMapping("/heist/api/{name}/skills/find")
+    public Set<HeistSkillDTO> getHeistSkillByHeistId(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
+
+        Set<HeistSkill> heistOptional = heistSkillService.heistSkillByHeistId(name);
+
+        Set<HeistSkillDTO> heistSkillDTOS = new HashSet<>();
+
+        if (!CollectionUtils.isEmpty(heistOptional)) {
+            response.setStatus(200);
+            for (HeistSkill heistSkill : heistOptional)
+            {
+                heistSkillDTOS.add(heistSkillConverter.toDto(heistSkill));
+            }
+
+            return heistSkillDTOS;
+        }
+        response.setStatus(404);
+
         return null;
     }
 }

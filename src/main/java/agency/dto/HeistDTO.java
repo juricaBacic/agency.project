@@ -2,6 +2,7 @@ package agency.dto;
 
 
 import agency.entity.HeistMember;
+import agency.enumeration.Status;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -14,7 +15,15 @@ public class HeistDTO {
     private LocalDateTime endTime;
     private Set<HeistSkillDTO> skills;
     private Set<HeistMember> heistMembers;
+    private Status status;
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;

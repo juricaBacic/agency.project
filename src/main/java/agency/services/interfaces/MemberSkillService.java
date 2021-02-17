@@ -15,6 +15,6 @@ public interface MemberSkillService {
 
      void deleteMemberSkillByMemberAndSkill(String memberName, String skillName);
 
-     Optional<MemberSkill> getMemberSkillByMemberId(String email);
+     Set<MemberSkill> getMemberSkillByMemberId(String email);
 
 }

@@ -71,6 +71,8 @@ public class HeistMemberServiceImpl implements HeistMemberService {
         return null;
     }
 
+
+
     @Override
     public EligibleMembersDTO findEligibleHeistMember(String heistName) {
 
