@@ -8,6 +8,7 @@ import agency.entity.Heist;
 import agency.entity.HeistMember;
 import agency.entity.HeistSkill;
 import agency.entity.MemberSkill;
+import agency.enumeration.Status;
 import agency.services.converters.HeistConverter;
 import agency.services.converters.HeistMemberConverter;
 import agency.services.converters.HeistSkillConverter;
@@ -108,7 +109,7 @@ public class RicherAPI {
         response.setStatus(404);
         return null;
     }
-    @GetMapping("/heist/api/{name}/skills/find")
+    @GetMapping("/heist/api/{name}/skills")
     public Set<HeistSkillDTO> getHeistSkillByHeistId(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
 
         Set<HeistSkill> heistOptional = heistSkillService.heistSkillByHeistId(name);
@@ -126,6 +127,20 @@ public class RicherAPI {
         }
         response.setStatus(404);
 
+        return null;
+    }
+
+
+    @GetMapping("/heist/api/{name}/status")
+    public Status hetHeistStatusByHeistId(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
+
+        Optional<Status> heistOptional = heistService.getHeistStatusByHeistId(name);
+
+        if (heistOptional.isPresent()) {
+            response.setStatus(200);
+            return heistOptional.get();
+        }
+        response.setStatus(404);
         return null;
     }
 }

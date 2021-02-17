@@ -48,23 +48,24 @@ public class HeistController {
     }
 
     @PutMapping("/heist/{name}/skills")
-    public ResponseEntity<HeistSkillDTO> updateHeistSkills (@RequestBody HeistDTO heistDTO, @PathVariable String name) throws URISyntaxException{
+    public ResponseEntity<HeistSkillDTO> updateHeistSkills (@RequestBody HeistDTO heistDTO, @PathVariable String name) throws URISyntaxException, UnsupportedEncodingException {
 
         heistSkillService.updateHeistSkill(heistDTO,name);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("/member/" + heistDTO.getName() +  "/skills"));
+       headers.setLocation(new URI("/member/" + URLEncoder.encode(heistDTO.getName(), "UTF-8") + "/skills"));
 
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
 
     }
 
     @PutMapping("/heist/{name}/start")
-    public ResponseEntity<HeistSkillDTO> startHeistManually (@PathVariable String name) throws URISyntaxException{
+    public ResponseEntity<Heist> startHeistManually (@PathVariable String name) throws URISyntaxException{
 
         heistStartManually.startHeistManually(name);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
+
 }

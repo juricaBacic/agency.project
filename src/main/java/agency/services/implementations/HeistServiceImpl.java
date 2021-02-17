@@ -5,6 +5,7 @@ import agency.dto.HeistSkillDTO;
 import agency.entity.Heist;
 import agency.entity.HeistSkill;
 import agency.entity.Skill;
+import agency.enumeration.Status;
 import agency.repository.HeistRepository;
 import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
@@ -69,6 +70,14 @@ public class HeistServiceImpl  implements HeistService {
         Optional<Heist> heistById = heistRepository.findById(name);
 
         return heistById;
+    }
+
+    @Override
+    public Optional<Status> getHeistStatusByHeistId(String name) {
+
+        Optional <Status> statusByHeistId = heistRepository.getStatusByHeistId(name);
+
+        return statusByHeistId;
     }
 
 
