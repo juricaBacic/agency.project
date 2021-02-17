@@ -6,6 +6,7 @@ import agency.entity.Skill;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.Set;
 
 @Repository
@@ -15,5 +16,6 @@ public interface MemberSkillRepository extends JpaRepository<MemberSkill, Long> 
 
     Set<MemberSkill> findMemberSkillsByMember(HeistMember heistMember);
 
+    Set<MemberSkill> findMemberSkillByMemberEmail(String email);
 
 }

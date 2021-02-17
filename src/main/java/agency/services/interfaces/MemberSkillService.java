@@ -3,6 +3,9 @@ package agency.services.interfaces;
 import agency.dto.HeistMemberDTO;
 import agency.entity.MemberSkill;
 
+import java.util.Optional;
+import java.util.Set;
+
 public interface MemberSkillService {
 
 
@@ -11,5 +14,7 @@ public interface MemberSkillService {
      void updateMemberSkill(String email, HeistMemberDTO heistMemberDTO);
 
      void deleteMemberSkillByMemberAndSkill(String memberName, String skillName);
+
+     Optional<MemberSkill> getMemberSkillByMemberId(String email);
 
 }

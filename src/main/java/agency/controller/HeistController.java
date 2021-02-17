@@ -1,7 +1,6 @@
 package agency.controller;
 
 import agency.dto.HeistDTO;
-import agency.dto.HeistMemberDTO;
 import agency.dto.HeistSkillDTO;
 import agency.entity.*;
 import agency.services.implementations.HeistStartManuallyImpl;
@@ -45,9 +44,6 @@ public class HeistController {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
-
-
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 

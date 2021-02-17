@@ -1,14 +1,11 @@
-package agency.services.implementations;
+package agency.services.converters;
 
 import agency.dto.HeistMemberDTO;
 import agency.dto.MemberSkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.MemberSkill;
-import agency.repository.HeistMemberRepository;
 import agency.repository.MemberSkillRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import java.util.HashSet;
 import java.util.Set;
 

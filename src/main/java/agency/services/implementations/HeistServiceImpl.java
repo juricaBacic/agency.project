@@ -11,6 +11,8 @@ import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class HeistServiceImpl  implements HeistService {
 
@@ -33,6 +35,8 @@ public class HeistServiceImpl  implements HeistService {
         heist.setEndTime(heistDTO.getEndTime());
         heist.setStartTime(heistDTO.getStartTime());
 
+         heistRepository.save(heist);
+
         for (HeistSkillDTO heistSkillDTO : heistDTO.getSkills()) {
             Skill skill = new Skill();
             skill.setName(heistSkillDTO.getName());
@@ -47,7 +51,17 @@ public class HeistServiceImpl  implements HeistService {
             heistSkillService.saveHeistSkill(heistSkill);
 
         }
-
-        return heistRepository.save(heist);
+        return  heist;
     }
+
+    @Override
+    public Optional<Heist> getHeistById(String name) {
+
+        Optional<Heist> heistById = heistRepository.findById(name);
+
+        return heistById;
+
+    }
+
+
 }

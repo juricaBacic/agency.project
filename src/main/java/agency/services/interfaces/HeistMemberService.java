@@ -1,13 +1,9 @@
 package agency.services.interfaces;
 
 import agency.dto.EligibleMembersDTO;
-import agency.dto.HeistDTO;
-import agency.dto.HeistMemberDTO;
 import agency.entity.HeistMember;
-import agency.services.implementations.EligibleMembersConverter;
-
 import java.util.Optional;
-import java.util.Set;
+
 
 public interface HeistMemberService {
 

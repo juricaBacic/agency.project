@@ -1,7 +1,6 @@
 package agency.services.implementations;
 
 import agency.dto.HeistMemberDTO;
-import agency.dto.MemberSkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.MemberSkill;
 import agency.entity.Skill;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class MemberSkillServiceImpl implements MemberSkillService {
@@ -38,6 +38,8 @@ public class MemberSkillServiceImpl implements MemberSkillService {
         memberSkillRepository.save(memberSkill);
 
     }
+
+
 
     @Override
     public void updateMemberSkill(String email, HeistMemberDTO heistMemberDTO) {
@@ -76,5 +78,13 @@ public class MemberSkillServiceImpl implements MemberSkillService {
             memberSkillRepository.deleteMemberSkillByMemberAndSkill(heistMemberOptional.get(), skillOptional.get());
 
         }
+    }
+
+    @Override
+    public Optional<MemberSkill> getMemberSkillByMemberId(String email) {
+
+        Optional<MemberSkill> memberSkillByMemberEmail = memberSkillRepository.findMemberSkillByMemberEmail(email);
+
+        return memberSkillByMemberEmail;
     }
 }

@@ -1,4 +1,4 @@
-package agency.services.implementations;
+package agency.services.converters;
 
 import agency.dto.HeistSkillDTO;
 import agency.entity.HeistSkill;

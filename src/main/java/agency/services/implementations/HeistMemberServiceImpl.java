@@ -13,6 +13,7 @@ import agency.repository.HeistMemberRepository;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
 import agency.repository.MemberSkillRepository;
+import agency.services.converters.EligibleMembersConverter;
 import agency.services.interfaces.HeistMemberService;
 import org.springframework.stereotype.Service;
 
@@ -53,9 +54,9 @@ public class HeistMemberServiceImpl implements HeistMemberService {
     }
 
     @Override
-    public Optional<HeistMember> findHeistMemberById(String email) {
+    public Optional<HeistMember> findHeistMemberById(String memberId) {
 
-        return heistMemberRepository.findById(email);
+        return heistMemberRepository.findById(memberId);
     }
 
     @Override

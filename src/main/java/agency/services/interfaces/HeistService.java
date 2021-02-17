@@ -4,7 +4,11 @@ import agency.dto.HeistDTO;
 import agency.entity.Heist;
 import agency.entity.HeistMember;
 
+import java.util.Optional;
+
 public interface HeistService {
 
  Heist saveHeist(HeistDTO heistDTO);
+
+ Optional<Heist> getHeistById(String name);
 }
