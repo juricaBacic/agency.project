@@ -18,6 +18,9 @@ public class MemberSkill {
 
     private String level;
 
+    private long time = 0;
+
+
     public HeistMember getMember() {
         return member;
     }
@@ -25,7 +28,6 @@ public class MemberSkill {
     public void setMember(HeistMember member) {
         this.member = member;
     }
-
 
     public Skill getSkill() {
         return skill;
@@ -41,5 +43,13 @@ public class MemberSkill {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }

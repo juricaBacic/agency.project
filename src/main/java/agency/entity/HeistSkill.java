@@ -54,4 +54,6 @@ public class HeistSkill {
     public void setLevel(String level) {
         this.level = level;
     }
+
+
 }

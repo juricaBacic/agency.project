@@ -2,7 +2,6 @@ package web.rest;
 
 
 import agency.ProjectApplication;
-import agency.controller.HeistController;
 import agency.controller.HeistMemberController;
 import agency.enumeration.Status;
 import agency.repository.HeistRepository;
@@ -10,26 +9,18 @@ import agency.services.implementations.HeistStartManuallyImpl;
 import agency.services.interfaces.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
+
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
+
 import javax.xml.validation.Validator;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Set;
+
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
 public class HeistMemberControllerIT {
@@ -44,8 +35,6 @@ public class HeistMemberControllerIT {
     @Autowired
     private HeistStartManuallyImpl heistStartManually;
     @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
     private HeistMemberService heistMemberService;
     @Autowired
     private MemberSkillService memberSkillService;
@@ -53,7 +42,10 @@ public class HeistMemberControllerIT {
     private SkillService skillService;
     @Autowired
     private CheckMembersForConfirmService checkMembersForConfirmService;
-
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    HeistOutcomeService heistOutcomeService;
 
     private Validator validator;
     private MockMvc heistMemberControllerMvc;
@@ -75,12 +67,11 @@ public class HeistMemberControllerIT {
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        final HeistMemberController heistMemberController = new HeistMemberController(modelMapper,heistMemberService,skillService,memberSkillService,checkMembersForConfirmService);
+        final HeistMemberController heistMemberController = new HeistMemberController(heistMemberService,memberSkillService,skillService,
+                checkMembersForConfirmService,emailService,heistOutcomeService);
         this.heistMemberControllerMvc = MockMvcBuilders.standaloneSetup(heistMemberController)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jacksonMessageConverter)
                 .setValidator((org.springframework.validation.Validator) validator).build();
     }
-
-
 }

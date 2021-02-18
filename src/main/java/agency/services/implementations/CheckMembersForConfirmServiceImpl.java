@@ -6,6 +6,7 @@ import agency.enumeration.Status;
 import agency.repository.HeistMemberRepository;
 import agency.repository.HeistRepository;
 import agency.services.interfaces.CheckMembersForConfirmService;
+import agency.services.interfaces.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -21,10 +22,12 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
 
     private HeistRepository heistRepository;
     private HeistMemberRepository heistMemberRepository;
+    private EmailService emailService;
 
-    public CheckMembersForConfirmServiceImpl(HeistRepository heistRepository, HeistMemberRepository heistMemberRepository) {
+    public CheckMembersForConfirmServiceImpl(HeistRepository heistRepository, HeistMemberRepository heistMemberRepository, EmailService emailService) {
         this.heistRepository = heistRepository;
         this.heistMemberRepository = heistMemberRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -79,7 +82,11 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
             heistMembers1.addAll(heistMembers);
             heist.setStatus(Status.READY);
             heistRepository.save(heist);
+            for (HeistMember heistMemberOne:heistMembers1) {
 
+                emailService.sendSimpleMessage(heistMemberOne.getEmail());
+
+            }
             return HttpStatus.NO_CONTENT;
 
         } else {

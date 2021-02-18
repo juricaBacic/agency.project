@@ -7,12 +7,8 @@ import agency.dto.MemberSkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.MemberSkill;
 import agency.entity.Skill;
-import agency.services.interfaces.CheckMembersForConfirmService;
-import agency.services.interfaces.HeistMemberService;
-import agency.services.interfaces.MemberSkillService;
-import agency.services.interfaces.SkillService;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
+import agency.enumeration.OutcomeStatus;
+import agency.services.interfaces.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,31 +22,22 @@ import java.util.Optional;
 @RestController
 public class HeistMemberController {
 
-
-    private ModelMapper modelMapper;
     private HeistMemberService heistMemberService;
     private MemberSkillService memberSkillService;
     private SkillService skillService;
     private CheckMembersForConfirmService checkMembersForConfirmService;
+    private EmailService emailService;
+    private HeistOutcomeService heistOutcomeService;
 
-
-    public HeistMemberController(ModelMapper modelMapper, HeistMemberService heistMemberService, SkillService skillService,
-                                 MemberSkillService memberSkillService,CheckMembersForConfirmService checkMembersForConfirmService) {
-        this.modelMapper = modelMapper;
+    public HeistMemberController(HeistMemberService heistMemberService, MemberSkillService memberSkillService, SkillService skillService,
+                                 CheckMembersForConfirmService checkMembersForConfirmService, EmailService emailService, HeistOutcomeService heistOutcomeService) {
         this.heistMemberService = heistMemberService;
-        this.skillService = skillService;
         this.memberSkillService = memberSkillService;
+        this.skillService = skillService;
         this.checkMembersForConfirmService = checkMembersForConfirmService;
-
-        Converter<String, Skill> skillConverter = mappingContext -> {
-            Skill skill = new Skill();
-            skill.setName(mappingContext.getSource());
-            return skill;
-        };
-        modelMapper.createTypeMap(HeistMemberDTO.class, HeistMember.class).addMappings(mapper -> mapper.using(skillConverter).map(HeistMemberDTO::getMainSkill, HeistMember::setMainSkill));
-
+        this.emailService = emailService;
+        this.heistOutcomeService = heistOutcomeService;
     }
-
 
     @PostMapping("/member")
     public ResponseEntity<HeistMemberDTO> savePotentialHeistMember(@RequestBody HeistMemberDTO heistMemberDTO) throws URISyntaxException {
@@ -81,8 +68,10 @@ public class HeistMemberController {
 
             memberSkillService.saveMemberSkill(memberSkill);
 
+
         });
 
+        emailService.sendSimpleMessage(heistMemberDTO.getEmail());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI("/member" + heistMemberDTO.getEmail()));
 
@@ -137,4 +126,17 @@ public class HeistMemberController {
         return new ResponseEntity<>(headers, status);
     }
 
+    @PutMapping("/heist/{name}/outcome")
+    public ResponseEntity<String> outcomeOfMemberStatus (@PathVariable String name) throws URISyntaxException{
+
+        OutcomeStatus outcomeStatus = heistOutcomeService.outcomeOfTheHeist(name);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(new URI("/heist/" + UriEncoder.encode(name) +  "/outcome"));
+
+        if(outcomeStatus != null){
+            return new ResponseEntity<>(outcomeStatus.toString(), headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -15,7 +15,7 @@ public class Heist {
 
     private String location;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "confirmed_members",
             joinColumns = {@JoinColumn (name = "name" )}, inverseJoinColumns = {@JoinColumn (name = "email")})
     private Set<HeistMember> heistMembers;

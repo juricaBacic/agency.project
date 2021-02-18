@@ -15,15 +15,18 @@ public class EmailServiceImpl implements EmailService {
         this.emailSender = emailSender;
     }
 
+
+
     @Override
-    public void sendSimpleMessage(String to, String subject, String text) {
+    public void sendSimpleMessage(String to) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("agencyjobapplication44@gmail.com");
-        message.setTo("J");
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
+        message.setFrom("juricabacic@ag04.io");
+        message.setTo(to);
+        message.setSubject("subject");
+        message.setText("txt");
+        //emailSender --> javax.mail.AuthenticationFailedException: 535 Authentication Credentials Invalid when i try to save member because authentication dont work.
+        //emailSender.send(message);
 
     }
 }
