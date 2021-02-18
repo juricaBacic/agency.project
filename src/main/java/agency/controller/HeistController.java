@@ -4,6 +4,7 @@ import agency.dto.HeistDTO;
 import agency.dto.HeistSkillDTO;
 import agency.entity.*;
 import agency.services.implementations.HeistStartManuallyImpl;
+import agency.services.interfaces.AutomaticHeistStartService;
 import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
@@ -24,14 +25,16 @@ public class HeistController {
     private SkillService skillService;
     private HeistSkillService heistSkillService;
     private HeistStartManuallyImpl heistStartManually;
+    private AutomaticHeistStartService automaticHeistStartService;
 
-    public HeistController(HeistService heistService, SkillService skillService, HeistSkillService heistSkillService, HeistStartManuallyImpl heistStartManually) {
+    public HeistController(HeistService heistService, SkillService skillService,
+                           HeistSkillService heistSkillService, HeistStartManuallyImpl heistStartManually, AutomaticHeistStartService automaticHeistStartService) {
         this.heistService = heistService;
         this.skillService = skillService;
         this.heistSkillService = heistSkillService;
         this.heistStartManually = heistStartManually;
+        this.automaticHeistStartService = automaticHeistStartService;
     }
-
 
     @PostMapping("/heist")
     public ResponseEntity<Heist> saveHeist(@RequestBody HeistDTO heistDTO) throws URISyntaxException {
@@ -68,4 +71,12 @@ public class HeistController {
 
     }
 
+    @PutMapping("/heist/start/automatic")
+    public ResponseEntity<Heist> startHeistAutomatic() throws URISyntaxException{
+
+        automaticHeistStartService.startHeistStatusAutomatically();
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
 }

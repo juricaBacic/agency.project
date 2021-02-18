@@ -7,6 +7,8 @@ import agency.entity.HeistSkill;
 import agency.entity.Skill;
 import agency.enumeration.Status;
 import agency.repository.HeistRepository;
+import agency.services.converters.HeistConverter;
+import agency.services.converters.HeistSkillConverter;
 import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
@@ -20,23 +22,24 @@ public class HeistServiceImpl  implements HeistService {
     private HeistRepository heistRepository;
     private SkillService skillService;
     private HeistSkillService heistSkillService;
+    private HeistConverter heistConverter;
+    private HeistSkillConverter heistSkillConverter;
 
-    public HeistServiceImpl(HeistRepository heistRepository, SkillService skillService, HeistSkillService heistSkillService) {
+    public HeistServiceImpl(HeistRepository heistRepository, SkillService skillService,
+                            HeistSkillService heistSkillService, HeistConverter heistConverter, HeistSkillConverter heistSkillConverter) {
         this.heistRepository = heistRepository;
         this.skillService = skillService;
         this.heistSkillService = heistSkillService;
+        this.heistConverter = heistConverter;
+        this.heistSkillConverter = heistSkillConverter;
     }
 
     @Override
     public Heist saveHeist(HeistDTO heistDTO) {
-        Heist heist = new Heist();
 
-        heist.setName(heistDTO.getName());
-        heist.setLocation(heistDTO.getLocation());
-        heist.setEndTime(heistDTO.getEndTime());
-        heist.setStartTime(heistDTO.getStartTime());
+        Heist heist = heistConverter.toEntity(heistDTO);
 
-         heistRepository.save(heist);
+        heistRepository.save(heist);
 
         for (HeistSkillDTO heistSkillDTO : heistDTO.getSkills()) {
             Skill skill = new Skill();

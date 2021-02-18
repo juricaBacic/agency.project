@@ -8,11 +8,12 @@ import agency.entity.Heist;
 import agency.entity.HeistSkill;
 import agency.enumeration.Status;
 import agency.repository.HeistRepository;
-import agency.repository.HeistSkillRepository;
 import agency.services.implementations.HeistStartManuallyImpl;
+import agency.services.interfaces.AutomaticHeistStartService;
 import agency.services.interfaces.HeistService;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -56,6 +57,8 @@ public class HeistControllerIT {
     private HeistRepository heistRepository;
     @Autowired
     private HeistStartManuallyImpl heistStartManually;
+    @Autowired
+    private AutomaticHeistStartService automaticHeistStartService;
 
     private Validator validator;
     private MockMvc heistControllerMvc;
@@ -65,14 +68,14 @@ public class HeistControllerIT {
     private static final LocalDateTime DEFAULT_END_DATE_TIME = LocalDateTime.of(2020, 9, 10, 18, 00, 00);
     private static final String DEFAULT_LOCATION = "Spain";
     private static final LocalDateTime DEFAULT_START_DATE_TIME = LocalDateTime.of(2020, 9, 05, 22, 00, 00);
-    private static final Status DEFAULT_STATUS = Status.PLANNING;
+    private static final Status IN_PROGRESS_STATUS = Status.IN_PROGRESS;
     private static final String SKILL_NAME = "driving";
     private static final String SKILL_LEVEL_FOUR_STAR = "****";
 
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        final HeistController heistController = new HeistController(heistService, skillService, heistSkillService, heistStartManuallyImpl);
+        final HeistController heistController = new HeistController( heistService, skillService, heistSkillService, heistStartManuallyImpl,automaticHeistStartService );
         this.heistControllerMvc = MockMvcBuilders.standaloneSetup(heistController)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jacksonMessageConverter)
@@ -159,7 +162,7 @@ public class HeistControllerIT {
                 .andExpect(status().isCreated());
 
         Heist heist = heistRepository.findById(DEFAULT_NAME).get();
-        assertThat(heist.getStatus().equals(Status.IN_PROGRESS));
+        assertThat(heist.getStatus().equals(IN_PROGRESS_STATUS));
 
     }
 }

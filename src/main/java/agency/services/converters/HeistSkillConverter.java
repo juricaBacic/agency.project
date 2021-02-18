@@ -2,14 +2,22 @@ package agency.services.converters;
 
 import agency.dto.HeistSkillDTO;
 import agency.entity.HeistSkill;
+import agency.repository.HeistSkillRepository;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class HeistSkillConverter {
 
+    HeistSkillRepository heistSkillRepository;
 
-   public HeistSkillDTO toDto (HeistSkill heistSkill){
+    public HeistSkillConverter(HeistSkillRepository heistSkillRepository) {
+
+        this.heistSkillRepository = heistSkillRepository;
+
+    }
+
+    public HeistSkillDTO toDto (HeistSkill heistSkill){
 
        HeistSkillDTO heistSkillDTO = new HeistSkillDTO();
 
@@ -20,7 +28,15 @@ public class HeistSkillConverter {
        return heistSkillDTO;
    }
 
+    public HeistSkill toEntity (HeistSkillDTO heistSkillDTO){
 
+        HeistSkill heistSkill = new HeistSkill();
+
+        heistSkill.setLevel(heistSkillDTO.getLevel());
+        heistSkill.setMember(heistSkillDTO.getMembers());
+
+        return heistSkill;
+    }
 
 
 }

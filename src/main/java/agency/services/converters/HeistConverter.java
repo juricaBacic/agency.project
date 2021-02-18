@@ -62,4 +62,19 @@ public class HeistConverter {
         }
         return heistDTO;
     }
+
+   public Heist toEntity(HeistDTO heistDTO){
+
+        Heist heist = new Heist();
+
+        heist.setStatus(heistDTO.getStatus());
+        heist.setName(heistDTO.getName());
+        heist.setStartTime(heistDTO.getStartTime());
+        heist.setEndTime(heistDTO.getEndTime());
+        heist.setLocation(heistDTO.getLocation());
+        heist.setHeistMembers(heistDTO.getHeistMembers());
+
+        return heist;
+   }
+
 }
