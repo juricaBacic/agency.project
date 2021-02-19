@@ -22,15 +22,13 @@ import java.net.URLEncoder;
 public class HeistController {
 
     private HeistService heistService;
-    private SkillService skillService;
     private HeistSkillService heistSkillService;
     private HeistStartManuallyImpl heistStartManually;
     private AutomaticHeistStartService automaticHeistStartService;
 
-    public HeistController(HeistService heistService, SkillService skillService,
-                           HeistSkillService heistSkillService, HeistStartManuallyImpl heistStartManually, AutomaticHeistStartService automaticHeistStartService) {
+    public HeistController(HeistService heistService,HeistSkillService heistSkillService,
+                           HeistStartManuallyImpl heistStartManually, AutomaticHeistStartService automaticHeistStartService) {
         this.heistService = heistService;
-        this.skillService = skillService;
         this.heistSkillService = heistSkillService;
         this.heistStartManually = heistStartManually;
         this.automaticHeistStartService = automaticHeistStartService;
@@ -54,9 +52,6 @@ public class HeistController {
     public ResponseEntity<HeistSkillDTO> updateHeistSkills (@RequestBody HeistDTO heistDTO, @PathVariable String name) throws URISyntaxException, UnsupportedEncodingException {
 
         heistSkillService.updateHeistSkill(heistDTO,name);
-
-    //    HttpHeaders headers = new HttpHeaders();
-    //    headers.setLocation(new URI("/heist/" + URLEncoder.encode(heistDTO.getName(), "UTF-8") + "/skills"));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 

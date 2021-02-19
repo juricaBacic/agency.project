@@ -19,13 +19,14 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendSimpleMessage(String to) {
-
+//I get javax.mail.AuthenticationFailedException: 535 Authentication Credentials Invalid when i try to save member because authentication on given data dont work.
+// I make gmail acc for this occasion username:agencyjobapplication44 pass: thepassword04 so you can try with this
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("juricabacic@ag04.io");
         message.setTo(to);
         message.setSubject("subject");
         message.setText("txt");
-        //emailSender --> javax.mail.AuthenticationFailedException: 535 Authentication Credentials Invalid when i try to save member because authentication dont work.
+        //emailSender
         //emailSender.send(message);
 
     }
