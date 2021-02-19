@@ -18,7 +18,7 @@ public interface HeistRepository extends JpaRepository<Heist, String>{
 
 
     @Query("SELECT h.status FROM  Heist h WHERE h.name = ?1")
-    Optional<Status> getStatusByHeistId(String name);
+    Optional<Status>getStatusByHeistId(String name);
 
 
 }

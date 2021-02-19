@@ -48,7 +48,7 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
         this.memberSkillRepository = memberSkillRepository;
         this.heistSkillRepository = heistSkillRepository;
         this.env = env;
-        this.levelUPTime=Long.parseLong(env.getProperty("app.levelUpTime", "86400"));
+        levelUPTime=Long.parseLong(env.getProperty("app.levelUpTime", "86400"));
     }
 
     @Override

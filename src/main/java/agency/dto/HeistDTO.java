@@ -15,7 +15,7 @@ public class HeistDTO {
     private LocalDateTime endTime;
     private Set<HeistSkillDTO> skills;
     private Set<HeistMember> heistMembers;
-    private Status status;
+    private Status status = Status.PLANNING;
 
     public Status getStatus() {
         return status;

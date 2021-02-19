@@ -132,7 +132,7 @@ public class RicherAPI {
 
 
     @GetMapping("/heist/api/{name}/status")
-    public Status hetHeistStatusByHeistId(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
+    public Status getHeistStatusByHeistId(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
 
         Optional<Status> heistOptional = heistService.getHeistStatusByHeistId(name);
 

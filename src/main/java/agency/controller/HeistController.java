@@ -55,10 +55,10 @@ public class HeistController {
 
         heistSkillService.updateHeistSkill(heistDTO,name);
 
-        HttpHeaders headers = new HttpHeaders();
-       headers.setLocation(new URI("/member/" + URLEncoder.encode(heistDTO.getName(), "UTF-8") + "/skills"));
+    //    HttpHeaders headers = new HttpHeaders();
+    //    headers.setLocation(new URI("/heist/" + URLEncoder.encode(heistDTO.getName(), "UTF-8") + "/skills"));
 
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
@@ -71,12 +71,4 @@ public class HeistController {
 
     }
 
-    @PutMapping("/heist/start/automatic")
-    public ResponseEntity<Heist> startHeistAutomatic() throws URISyntaxException{
-
-        automaticHeistStartService.startHeistStatusAutomatically();
-
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }
 }
