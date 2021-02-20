@@ -10,8 +10,9 @@ public class MailSender {
 
     @Bean
     public JavaMailSender getJavaMailSender() {
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost("email-smtp.eu-west-1.amazonaws.com");
         mailSender.setPort(587);
 
         mailSender.setUsername(mailSender.getUsername());

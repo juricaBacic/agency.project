@@ -84,7 +84,7 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
             heistRepository.save(heist);
             for (HeistMember heistMemberOne:heistMembers1) {
 
-                emailService.sendSimpleMessage(heistMemberOne.getEmail());
+                emailService.sendEmailToMember(heistMemberOne.getEmail());
 
             }
             return HttpStatus.NO_CONTENT;

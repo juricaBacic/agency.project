@@ -13,8 +13,6 @@ import agency.repository.HeistSkillRepository;
 import agency.repository.MemberSkillRepository;
 import agency.services.interfaces.AutomaticHeistStartService;
 import agency.services.interfaces.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -32,7 +30,6 @@ import java.util.*;
 public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartService {
 
     private HeistRepository heistRepository;
-    private CurrentDateTime currentDateTime;
     private EmailService emailService;
     private MemberSkillRepository memberSkillRepository;
     private HeistSkillRepository heistSkillRepository;
@@ -41,9 +38,8 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
 
     private Long levelUPTime;
 
-    public AutomaticHeistStartServiceImpl(HeistRepository heistRepository, CurrentDateTime currentDateTime, EmailService emailService, MemberSkillRepository memberSkillRepository, HeistSkillRepository heistSkillRepository, Environment env) {
+    public AutomaticHeistStartServiceImpl(HeistRepository heistRepository, EmailService emailService, MemberSkillRepository memberSkillRepository, HeistSkillRepository heistSkillRepository, Environment env) {
         this.heistRepository = heistRepository;
-        this.currentDateTime = currentDateTime;
         this.emailService = emailService;
         this.memberSkillRepository = memberSkillRepository;
         this.heistSkillRepository = heistSkillRepository;
@@ -53,7 +49,7 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
 
     @Override
     @Scheduled(cron = "0 * * * * *")
-    public void startHeistStatusAutomatically() {
+    public void startHeistAutomaticallyAndChangeStatus() {
 
         LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -69,7 +65,7 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
                     Set<HeistMember> heistMembers = heist.getHeistMembers();
                     for (HeistMember heistMembersForHeist : heistMembers) {
 
-                        emailService.sendSimpleMessage(heistMembersForHeist.getEmail());
+                        emailService.sendEmailToMember(heistMembersForHeist.getEmail());
 
                     }
                     heistRepository.save(heist);
@@ -79,7 +75,7 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
                     heist.setStatus(Status.FINISHED);
                     Set<HeistMember> heistMembers = heist.getHeistMembers();
                     for (HeistMember heistMembersForHeist : heistMembers) {
-                        emailService.sendSimpleMessage(heistMembersForHeist.getEmail());
+                        emailService.sendEmailToMember(heistMembersForHeist.getEmail());
                     }
                     heistRepository.save(heist);
                 }
@@ -87,6 +83,7 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
         }
 
     }
+
 
     void levelUpMemberSkill(Heist heist) {
 

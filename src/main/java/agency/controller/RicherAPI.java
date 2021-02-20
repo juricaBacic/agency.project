@@ -99,7 +99,7 @@ public class RicherAPI {
     @GetMapping("/heist/api/{name}/members")
     public HeistDTO getHeistWithNameStatusANdSkillsByName(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
 
-        Optional<Heist> heistOptional = heistService.getHeistWithNameStatusANdSkillsByName(name);
+        Optional<Heist> heistOptional = heistService.getHeistWithNameStatusAndSkillsByName(name);
 
         if (heistOptional.isPresent()) {
             response.setStatus(200);

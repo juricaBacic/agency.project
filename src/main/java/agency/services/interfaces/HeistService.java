@@ -13,7 +13,7 @@ public interface HeistService {
 
  Optional<Heist> getHeistById(String name);
 
- Optional<Heist> getHeistWithNameStatusANdSkillsByName(String name);
+ Optional<Heist> getHeistWithNameStatusAndSkillsByName(String name);
 
  Optional<Status> getHeistStatusByHeistId(String name);
 }

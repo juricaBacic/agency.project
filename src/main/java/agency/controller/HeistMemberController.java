@@ -71,7 +71,7 @@ public class HeistMemberController {
 
         });
 
-        emailService.sendSimpleMessage(heistMemberDTO.getEmail());
+        emailService.sendEmailToMember(heistMemberDTO.getEmail());
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI("/member" + heistMemberDTO.getEmail()));
 

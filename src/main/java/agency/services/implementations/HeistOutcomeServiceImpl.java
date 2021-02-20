@@ -33,7 +33,6 @@ public class HeistOutcomeServiceImpl implements HeistOutcomeService {
     @Override
     public OutcomeStatus outcomeOfTheHeist(String name) {
 
-
         Optional<Heist> heistById = heistRepository.findById(name);
 
         if (heistById.isPresent()) {

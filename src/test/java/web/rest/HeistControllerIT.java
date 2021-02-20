@@ -75,7 +75,7 @@ public class HeistControllerIT {
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        final HeistController heistController = new HeistController( heistService, skillService, heistSkillService, heistStartManuallyImpl,automaticHeistStartService );
+        final HeistController heistController = new HeistController( heistService, heistSkillService, heistStartManuallyImpl,automaticHeistStartService );
         this.heistControllerMvc = MockMvcBuilders.standaloneSetup(heistController)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jacksonMessageConverter)

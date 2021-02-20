@@ -1,18 +1,14 @@
 package agency.services.implementations;
 
 import agency.dto.HeistDTO;
-import agency.dto.HeistSkillDTO;
 import agency.entity.Heist;
-import agency.entity.HeistMember;
 import agency.entity.HeistSkill;
 import agency.entity.Skill;
-import agency.enumeration.Status;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
 import agency.services.interfaces.HeistSkillService;
 import agency.services.interfaces.SkillService;
-import org.springframework.expression.spel.ast.OpAnd;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
