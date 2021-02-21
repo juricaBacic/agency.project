@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
-public class CheckMembersForConfirmServiceTest {
+public class CheckMembersForConfirmServiceUnitTest {
 
     private static final  String NAME = "Fábrica Nacional de Moneda y Timbre";
     private List<String> memberList = Arrays.asList("helsinki@ag04.com", "Moscow@ag04.com");

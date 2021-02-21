@@ -115,7 +115,7 @@ public class HeistControllerIT {
     }
 
     @Test
-    void checkImportOfHeistIT() throws Exception {
+    void saveHeistIT() throws Exception {
 
         heistControllerMvc.perform(MockMvcRequestBuilders.post("/heist")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

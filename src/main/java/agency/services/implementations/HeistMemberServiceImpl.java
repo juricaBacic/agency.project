@@ -6,13 +6,13 @@ import agency.entity.Heist;
 import agency.entity.HeistMember;
 
 
+import agency.entity.HeistMemberSkill;
 import agency.entity.HeistSkill;
-import agency.entity.MemberSkill;
 import agency.enumeration.Status;
 import agency.repository.HeistMemberRepository;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
-import agency.repository.MemberSkillRepository;
+import agency.repository.HeistMemberSkillRepository;
 import agency.services.converters.EligibleMembersConverter;
 import agency.services.interfaces.HeistMemberService;
 import org.springframework.stereotype.Service;
@@ -28,19 +28,19 @@ public class HeistMemberServiceImpl implements HeistMemberService {
     private HeistMemberRepository heistMemberRepository;
     private HeistSkillRepository heistSkillRepository;
     private HeistRepository heistRepository;
-    private MemberSkillRepository memberSkillRepository;
+    private HeistMemberSkillRepository heistMemberSkillRepository;
     private EligibleMembersConverter eligibleMembersConverter;
 
 
 
     public HeistMemberServiceImpl(HeistMemberRepository heistMemberRepository, HeistRepository heistRepository,
-                                  HeistSkillRepository heistSkillRepository, MemberSkillRepository memberSkillRepository,
+                                  HeistSkillRepository heistSkillRepository, HeistMemberSkillRepository heistMemberSkillRepository,
                                   EligibleMembersConverter eligibleMembersConverter) {
 
         this.heistMemberRepository = heistMemberRepository;
         this.heistRepository = heistRepository;
         this.heistSkillRepository = heistSkillRepository;
-        this.memberSkillRepository = memberSkillRepository;
+        this.heistMemberSkillRepository = heistMemberSkillRepository;
         this.eligibleMembersConverter = eligibleMembersConverter;
 
     }
@@ -89,13 +89,13 @@ public class HeistMemberServiceImpl implements HeistMemberService {
 
             for (HeistMember heistMember : heistMembersByStatus) {
 
-                Set<MemberSkill> memberSkillByMember = memberSkillRepository.findMemberSkillsByMember(heistMember);
+                Set<HeistMemberSkill> memberSkillByHeistMember = heistMemberSkillRepository.findMemberSkillsByMember(heistMember);
 
                 for (HeistSkill heistSkill : heistSkillByHeist) {
 
-                    for (MemberSkill memberSkill : memberSkillByMember) {
+                    for (HeistMemberSkill heistMemberSkill : memberSkillByHeistMember) {
 
-                        if (heistSkill.getSkill().equals(memberSkill.getSkill()) && heistSkill.getLevel().length() <= memberSkill.getLevel().length()) {
+                        if (heistSkill.getSkill().equals(heistMemberSkill.getSkill()) && heistSkill.getLevel().length() <= heistMemberSkill.getLevel().length()) {
 
                             heistMembersSet.add(heistMember);
 

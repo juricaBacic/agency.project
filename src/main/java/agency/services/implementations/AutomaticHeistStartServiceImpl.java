@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 import agency.entity.Heist;
 import agency.entity.HeistMember;
 import agency.entity.HeistSkill;
-import agency.entity.MemberSkill;
+import agency.entity.HeistMemberSkill;
 import agency.enumeration.Status;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
-import agency.repository.MemberSkillRepository;
+import agency.repository.HeistMemberSkillRepository;
 import agency.services.interfaces.AutomaticHeistStartService;
 import agency.services.interfaces.EmailService;
 import org.springframework.context.annotation.Configuration;
@@ -31,17 +31,17 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
 
     private HeistRepository heistRepository;
     private EmailService emailService;
-    private MemberSkillRepository memberSkillRepository;
+    private HeistMemberSkillRepository heistMemberSkillRepository;
     private HeistSkillRepository heistSkillRepository;
     private Environment env;
 
 
     private Long levelUPTime;
 
-    public AutomaticHeistStartServiceImpl(HeistRepository heistRepository, EmailService emailService, MemberSkillRepository memberSkillRepository, HeistSkillRepository heistSkillRepository, Environment env) {
+    public AutomaticHeistStartServiceImpl(HeistRepository heistRepository, EmailService emailService, HeistMemberSkillRepository heistMemberSkillRepository, HeistSkillRepository heistSkillRepository, Environment env) {
         this.heistRepository = heistRepository;
         this.emailService = emailService;
-        this.memberSkillRepository = memberSkillRepository;
+        this.heistMemberSkillRepository = heistMemberSkillRepository;
         this.heistSkillRepository = heistSkillRepository;
         this.env = env;
         levelUPTime=Long.parseLong(env.getProperty("app.levelUpTime", "86400"));
@@ -100,15 +100,15 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
 
         for (HeistMember heistMember : heistMembers) {
 
-            Set<MemberSkill> memberSkillByMember = memberSkillRepository.findMemberSkillsByMember(heistMember);
+            Set<HeistMemberSkill> memberSkillByHeistMember = heistMemberSkillRepository.findMemberSkillsByMember(heistMember);
 
             for (HeistSkill heistSkill : heistSkillByHeist) {
 
-                for (MemberSkill memberSkill : memberSkillByMember) {
+                for (HeistMemberSkill heistMemberSkill : memberSkillByHeistMember) {
 
-                    if (heistSkill.getSkill().equals(memberSkill.getSkill()) && heistSkill.getLevel().length() <= memberSkill.getLevel().length()) {
+                    if (heistSkill.getSkill().equals(heistMemberSkill.getSkill()) && heistSkill.getLevel().length() <= heistMemberSkill.getLevel().length()) {
 
-                        memberSkill.setTime(restOfTimeSpent);
+                        heistMemberSkill.setTime(restOfTimeSpent);
 
                         String levels = "";
 
@@ -117,11 +117,11 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
                             levels += "*";
                         }
 
-                        String newLevel = (memberSkill.getLevel() + levels).length() > 10 ? "**********" : memberSkill.getLevel() + levels;
+                        String newLevel = (heistMemberSkill.getLevel() + levels).length() > 10 ? "**********" : heistMemberSkill.getLevel() + levels;
 
-                        memberSkill.setLevel(newLevel);
+                        heistMemberSkill.setLevel(newLevel);
 
-                        memberSkillRepository.save(memberSkill);
+                        heistMemberSkillRepository.save(heistMemberSkill);
 
                         break;
                     }

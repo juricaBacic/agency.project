@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
-public class HeistOutcomeServiceTest {
+public class HeistOutcomeServiceUnitTest {
 
     @Autowired
     HeistOutcomeService heistOutcomeService;

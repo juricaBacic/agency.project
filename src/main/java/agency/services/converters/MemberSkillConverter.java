@@ -1,21 +1,21 @@
 package agency.services.converters;
 
-import agency.dto.MemberSkillDTO;
-import agency.entity.MemberSkill;
+import agency.dto.HeistMemberSkillDTO;
+import agency.entity.HeistMemberSkill;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberSkillConverter {
 
 
-    public MemberSkillDTO toDto(MemberSkill memberSkill){
+    public HeistMemberSkillDTO toDto(HeistMemberSkill heistMemberSkill){
 
-        MemberSkillDTO memberSkillDTO = new MemberSkillDTO();
+        HeistMemberSkillDTO heistMemberSkillDTO = new HeistMemberSkillDTO();
 
-        memberSkillDTO.setLevel(memberSkill.getLevel());
-        memberSkillDTO.setName(memberSkill.getSkill().getName());
+        heistMemberSkillDTO.setLevel(heistMemberSkill.getLevel());
+        heistMemberSkillDTO.setName(heistMemberSkill.getSkill().getName());
 
-        return memberSkillDTO;
+        return heistMemberSkillDTO;
     }
 
 }

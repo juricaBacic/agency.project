@@ -2,12 +2,12 @@ package agency.services.implementations;
 
 import agency.dto.HeistMemberDTO;
 import agency.entity.HeistMember;
-import agency.entity.MemberSkill;
+import agency.entity.HeistMemberSkill;
 import agency.entity.Skill;
 import agency.repository.HeistMemberRepository;
-import agency.repository.MemberSkillRepository;
+import agency.repository.HeistMemberSkillRepository;
 import agency.services.interfaces.HeistMemberService;
-import agency.services.interfaces.MemberSkillService;
+import agency.services.interfaces.HeistMemberSkillService;
 import agency.services.interfaces.SkillService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,26 +16,26 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class MemberSkillServiceImpl implements MemberSkillService {
+public class HeistHeistMemberSkillServiceImpl implements HeistMemberSkillService {
 
 
-    MemberSkillRepository memberSkillRepository;
+    HeistMemberSkillRepository heistMemberSkillRepository;
     HeistMemberRepository heistMemberRepository;
     SkillService skillService;
     HeistMemberService heistMemberService;
 
 
-    public MemberSkillServiceImpl(MemberSkillRepository memberSkillRepository, HeistMemberRepository heistMemberRepository, SkillService skillService, HeistMemberService heistMemberService) {
-        this.memberSkillRepository = memberSkillRepository;
+    public HeistHeistMemberSkillServiceImpl(HeistMemberSkillRepository heistMemberSkillRepository, HeistMemberRepository heistMemberRepository, SkillService skillService, HeistMemberService heistMemberService) {
+        this.heistMemberSkillRepository = heistMemberSkillRepository;
         this.heistMemberRepository = heistMemberRepository;
         this.skillService = skillService;
         this.heistMemberService = heistMemberService;
     }
 
     @Override
-    public void saveMemberSkill(MemberSkill memberSkill) {
+    public void saveMemberSkill(HeistMemberSkill heistMemberSkill) {
 
-        memberSkillRepository.save(memberSkill);
+        heistMemberSkillRepository.save(heistMemberSkill);
 
     }
 
@@ -52,16 +52,16 @@ public class MemberSkillServiceImpl implements MemberSkillService {
                 Skill skill = new Skill();
                 skill.setName(memberSkillDTO.getName());
                 skillService.saveSkill(skill);
-                MemberSkill memberSkill = new MemberSkill();
-                memberSkill.setLevel(memberSkillDTO.getLevel());
-                memberSkill.setSkill(skill);
+                HeistMemberSkill heistMemberSkill = new HeistMemberSkill();
+                heistMemberSkill.setLevel(memberSkillDTO.getLevel());
+                heistMemberSkill.setSkill(skill);
 
 
                 HeistMember heistMember = optionalHeistMember.get();
-                memberSkill.setMember(heistMember);
+                heistMemberSkill.setMember(heistMember);
                 heistMember.setMainSkill(skillService.findSkillById(memberSkillDTO.getName()).get());
 
-                saveMemberSkill(memberSkill);
+                saveMemberSkill(heistMemberSkill);
 
             });
         }
@@ -75,16 +75,16 @@ public class MemberSkillServiceImpl implements MemberSkillService {
         Optional<HeistMember> heistMemberOptional = heistMemberService.findHeistMemberById(memberName);
 
         if (skillOptional.isPresent() && heistMemberOptional.isPresent()) {
-            memberSkillRepository.deleteMemberSkillByMemberAndSkill(heistMemberOptional.get(), skillOptional.get());
+            heistMemberSkillRepository.deleteMemberSkillByMemberAndSkill(heistMemberOptional.get(), skillOptional.get());
 
         }
     }
 
     @Override
-    public Set<MemberSkill> getMemberSkillByMemberId(String email) {
+    public Set<HeistMemberSkill> getMemberSkillByMemberId(String email) {
 
-        Set<MemberSkill> memberSkillByMemberEmail = memberSkillRepository.findMemberSkillsByMemberEmail(email);
+        Set<HeistMemberSkill> memberSkillByHeistMemberEmail = heistMemberSkillRepository.findMemberSkillsByMemberEmail(email);
 
-        return memberSkillByMemberEmail;
+        return memberSkillByHeistMemberEmail;
     }
 }

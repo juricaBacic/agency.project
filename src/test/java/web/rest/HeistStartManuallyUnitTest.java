@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.http.HttpStatus;
 
-import java.util.Optional;
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
 public class HeistStartManuallyUnitTest {

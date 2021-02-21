@@ -9,7 +9,7 @@ public class HeistMemberDTO {
 
 
     private String mainSkill;
-    private Set<MemberSkillDTO> skills;
+    private Set<HeistMemberSkillDTO> skills;
     private String email;
     private String name;
     private Sex sex;
@@ -23,11 +23,11 @@ public class HeistMemberDTO {
         this.mainSkill = mainSkill;
     }
 
-    public Set<MemberSkillDTO> getSkills() {
+    public Set<HeistMemberSkillDTO> getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<MemberSkillDTO> skills) {
+    public void setSkills(Set<HeistMemberSkillDTO> skills) {
         this.skills = skills;
     }
 

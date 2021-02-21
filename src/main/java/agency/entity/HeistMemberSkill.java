@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @IdClass(MemberSkillId.class)
-public class MemberSkill {
+public class HeistMemberSkill {
 
     @Id
     @ManyToOne

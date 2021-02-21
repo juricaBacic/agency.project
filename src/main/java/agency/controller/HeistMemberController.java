@@ -3,9 +3,9 @@ package agency.controller;
 import agency.dto.CheckAndConfirmForHeistDTO;
 import agency.dto.EligibleMembersDTO;
 import agency.dto.HeistMemberDTO;
-import agency.dto.MemberSkillDTO;
+import agency.dto.HeistMemberSkillDTO;
 import agency.entity.HeistMember;
-import agency.entity.MemberSkill;
+import agency.entity.HeistMemberSkill;
 import agency.entity.Skill;
 import agency.enumeration.OutcomeStatus;
 import agency.services.interfaces.*;
@@ -23,16 +23,16 @@ import java.util.Optional;
 public class HeistMemberController {
 
     private HeistMemberService heistMemberService;
-    private MemberSkillService memberSkillService;
+    private HeistMemberSkillService heistMemberSkillService;
     private SkillService skillService;
     private CheckMembersForConfirmService checkMembersForConfirmService;
     private EmailService emailService;
     private HeistOutcomeService heistOutcomeService;
 
-    public HeistMemberController(HeistMemberService heistMemberService, MemberSkillService memberSkillService, SkillService skillService,
+    public HeistMemberController(HeistMemberService heistMemberService, HeistMemberSkillService heistMemberSkillService, SkillService skillService,
                                  CheckMembersForConfirmService checkMembersForConfirmService, EmailService emailService, HeistOutcomeService heistOutcomeService) {
         this.heistMemberService = heistMemberService;
-        this.memberSkillService = memberSkillService;
+        this.heistMemberSkillService = heistMemberSkillService;
         this.skillService = skillService;
         this.checkMembersForConfirmService = checkMembersForConfirmService;
         this.emailService = emailService;
@@ -42,7 +42,7 @@ public class HeistMemberController {
     @PostMapping("/member")
     public ResponseEntity<HeistMemberDTO> savePotentialHeistMember(@RequestBody HeistMemberDTO heistMemberDTO) throws URISyntaxException {
 
-        for (MemberSkillDTO skillDTO : heistMemberDTO.getSkills()) {
+        for (HeistMemberSkillDTO skillDTO : heistMemberDTO.getSkills()) {
             Skill skill = new Skill();
             skill.setName(skillDTO.getName());
             skillService.saveSkill(skill);
@@ -61,12 +61,12 @@ public class HeistMemberController {
             Skill skill = new Skill();
             skill.setName(memberSkillDTO.getName());
 
-            MemberSkill memberSkill = new MemberSkill();
-            memberSkill.setLevel(memberSkillDTO.getLevel());
-            memberSkill.setSkill(skill);
-            memberSkill.setMember(member);
+            HeistMemberSkill heistMemberSkill = new HeistMemberSkill();
+            heistMemberSkill.setLevel(memberSkillDTO.getLevel());
+            heistMemberSkill.setSkill(skill);
+            heistMemberSkill.setMember(member);
 
-            memberSkillService.saveMemberSkill(memberSkill);
+            heistMemberSkillService.saveMemberSkill(heistMemberSkill);
 
 
         });
@@ -79,9 +79,9 @@ public class HeistMemberController {
     }
 
     @PutMapping("/member/{email}/skills")
-    public ResponseEntity<MemberSkillDTO> updateMemberSkills (@RequestBody HeistMemberDTO heistMemberDTO, @PathVariable String email) throws URISyntaxException{
+    public ResponseEntity<HeistMemberSkillDTO> updateMemberSkills (@RequestBody HeistMemberDTO heistMemberDTO, @PathVariable String email) throws URISyntaxException{
 
-        memberSkillService.updateMemberSkill(email,heistMemberDTO);
+        heistMemberSkillService.updateMemberSkill(email,heistMemberDTO);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI("/member/" + heistMemberDTO.getEmail() +  "/skills"));
@@ -91,9 +91,9 @@ public class HeistMemberController {
     }
 
     @DeleteMapping("/member/{email}/skills/{skillName}")
-    public ResponseEntity<MemberSkillDTO> deleteMemberSkills (@PathVariable String email,@PathVariable String skillName ) throws URISyntaxException{
+    public ResponseEntity<HeistMemberSkillDTO> deleteMemberSkills (@PathVariable String email, @PathVariable String skillName ) throws URISyntaxException{
 
-        memberSkillService.deleteMemberSkillByMemberAndSkill(email, skillName);
+        heistMemberSkillService.deleteMemberSkillByMemberAndSkill(email, skillName);
 
         HttpHeaders headers = new HttpHeaders();
 

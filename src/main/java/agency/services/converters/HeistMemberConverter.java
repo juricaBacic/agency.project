@@ -1,10 +1,10 @@
 package agency.services.converters;
 
 import agency.dto.HeistMemberDTO;
-import agency.dto.MemberSkillDTO;
+import agency.dto.HeistMemberSkillDTO;
 import agency.entity.HeistMember;
-import agency.entity.MemberSkill;
-import agency.repository.MemberSkillRepository;
+import agency.entity.HeistMemberSkill;
+import agency.repository.HeistMemberSkillRepository;
 import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,11 +12,11 @@ import java.util.Set;
 @Component
 public class HeistMemberConverter {
 
-    MemberSkillRepository memberSkillRepository;
+    HeistMemberSkillRepository heistMemberSkillRepository;
     MemberSkillConverter memberSkillConverter;
 
-    public HeistMemberConverter(MemberSkillRepository memberSkillRepository, MemberSkillConverter memberSkillConverter) {
-        this.memberSkillRepository = memberSkillRepository;
+    public HeistMemberConverter(HeistMemberSkillRepository heistMemberSkillRepository, MemberSkillConverter memberSkillConverter) {
+        this.heistMemberSkillRepository = heistMemberSkillRepository;
         this.memberSkillConverter = memberSkillConverter;
     }
 
@@ -30,12 +30,12 @@ public class HeistMemberConverter {
         heistMemberDTO.setStatus(heistMember.getStatus());
         heistMemberDTO.setMainSkill(heistMember.getMainSkill().getName());
 
-        Set<MemberSkill> memberSkillsByMember = memberSkillRepository.findMemberSkillsByMember(heistMember);
-        Set<MemberSkillDTO> skills = new HashSet<>();
+        Set<HeistMemberSkill> memberSkillsByHeistMember = heistMemberSkillRepository.findMemberSkillsByMember(heistMember);
+        Set<HeistMemberSkillDTO> skills = new HashSet<>();
 
-        for (MemberSkill memberSkills : memberSkillsByMember) {
+        for (HeistMemberSkill heistMemberSkills : memberSkillsByHeistMember) {
 
-            skills.add(memberSkillConverter.toDto(memberSkills));
+            skills.add(memberSkillConverter.toDto(heistMemberSkills));
         }
         heistMemberDTO.setSkills(skills);
 

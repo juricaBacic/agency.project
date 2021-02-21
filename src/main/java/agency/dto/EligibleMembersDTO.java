@@ -1,7 +1,5 @@
 package agency.dto;
 
-import agency.entity.MemberSkill;
-
 import java.util.Set;
 
 public class EligibleMembersDTO {

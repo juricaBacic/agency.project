@@ -1,7 +1,7 @@
 package agency.dto;
 
 
-public class MemberSkillDTO {
+public class HeistMemberSkillDTO {
 
 
     private String name;
