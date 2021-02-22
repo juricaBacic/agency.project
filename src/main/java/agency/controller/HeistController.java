@@ -59,7 +59,7 @@ public class HeistController {
     }
 
     @PutMapping("/heist/{name}/start")
-    public ResponseEntity<Heist> startHeistManually (@PathVariable String name) throws URISyntaxException{
+    public ResponseEntity<Heist> startHeistManually (@PathVariable String name){
 
         heistStartManually.startHeistManually(name);
 
@@ -68,16 +68,16 @@ public class HeistController {
     }
 
     @PutMapping("/heist/{name}/outcome")
-    public ResponseEntity<String> outcomeOfHeistStatus (@PathVariable String name) throws URISyntaxException{
+    public ResponseEntity<String> outcomeOfHeistStatus (@PathVariable String name){
 
         OutcomeStatus outcomeStatus = heistOutcomeService.outcomeOfTheHeist(name);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("/heist/" + UriEncoder.encode(name) +  "/outcome"));
 
         if(outcomeStatus != null){
-            return new ResponseEntity<>(outcomeStatus.toString(), headers, HttpStatus.OK);
+
+            return new ResponseEntity<>(outcomeStatus.toString(),HttpStatus.OK);
+
         } else {
-            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

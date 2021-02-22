@@ -72,7 +72,7 @@ public class HeistMemberControllerIT {
     private static final String DEFAULT_NAME = "Fábrica Nacional de Moneda y Timbre";
 
     //HeistMemberSkill\
-    private static final String MEMBER_EMAIL = "Helsinki@ag04.com";
+    private static final String MEMBER_EMAIL = "helsinki@ag04.com";
     private static final String TWO_STAR_LEVEL = "**";
     private static final String FOUR_STAR_LEVEL = "****";
     private static final String SKILL_DRIVING = "driving";

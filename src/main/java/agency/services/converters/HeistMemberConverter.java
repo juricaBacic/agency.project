@@ -2,12 +2,17 @@ package agency.services.converters;
 
 import agency.dto.HeistMemberDTO;
 import agency.dto.HeistMemberSkillDTO;
+import agency.dto.SkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.HeistMemberSkill;
+import agency.entity.Skill;
 import agency.repository.HeistMemberSkillRepository;
+import agency.services.interfaces.SkillService;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -15,6 +20,7 @@ public class HeistMemberConverter {
 
     HeistMemberSkillRepository heistMemberSkillRepository;
     MemberSkillConverter memberSkillConverter;
+    SkillService skillService;
 
     public HeistMemberConverter(HeistMemberSkillRepository heistMemberSkillRepository, MemberSkillConverter memberSkillConverter) {
         this.heistMemberSkillRepository = heistMemberSkillRepository;
@@ -41,6 +47,21 @@ public class HeistMemberConverter {
         heistMemberDTO.setSkills(skills);
 
         return heistMemberDTO;
+
+    }
+
+
+    public HeistMember toEntity(HeistMemberDTO heistMemberDTO) {
+
+        HeistMember heistMember = new HeistMember();
+
+        heistMember.setEmail(heistMemberDTO.getEmail());
+        heistMember.setName(heistMemberDTO.getName());
+        heistMember.setSex(heistMemberDTO.getSex());
+        heistMember.setStatus(heistMemberDTO.getStatus());
+        heistMember.setMainSkill(new Skill(heistMemberDTO.getMainSkill()));
+
+        return heistMember;
 
     }
 

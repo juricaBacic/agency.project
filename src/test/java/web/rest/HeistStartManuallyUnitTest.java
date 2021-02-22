@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.http.HttpStatus;
 
+import java.util.Optional;
+
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
 public class HeistStartManuallyUnitTest {
@@ -30,15 +32,18 @@ public class HeistStartManuallyUnitTest {
 
 
     @Test
-    void heistStartManuallyTest(){
+    void heistStartManuallyTest() {
 
-        Heist findHeistById = heistRepository.findById(HEIST_NAME).get();
+        Optional<Heist> findHeistById = heistRepository.findById(HEIST_NAME);
 
-        Assert.assertTrue(findHeistById.getStatus().equals(Status.READY));
+        if (!findHeistById.isEmpty()) {
 
-        HttpStatus statusChange = heistStartManually.startHeistManually(HEIST_NAME);
+            heistStartManually.startHeistManually(HEIST_NAME).toString();
 
-        Assert.assertTrue(statusChange.is4xxClientError());
+            Status statusByHeistId = heistRepository.getStatusByHeistId(HEIST_NAME).get();
+
+            Assert.assertEquals(statusByHeistId, Status.READY);
+        }
+
     }
-
 }

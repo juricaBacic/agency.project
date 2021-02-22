@@ -2,19 +2,21 @@ package agency.services.implementations;
 
 
 import agency.dto.EligibleMembersDTO;
-import agency.entity.Heist;
-import agency.entity.HeistMember;
+import agency.dto.HeistMemberDTO;
+import agency.dto.HeistMemberSkillDTO;
+import agency.entity.*;
 
 
-import agency.entity.HeistMemberSkill;
-import agency.entity.HeistSkill;
 import agency.enumeration.Status;
 import agency.repository.HeistMemberRepository;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
 import agency.repository.HeistMemberSkillRepository;
 import agency.services.converters.EligibleMembersConverter;
+import agency.services.converters.HeistMemberConverter;
+import agency.services.interfaces.EmailService;
 import agency.services.interfaces.HeistMemberService;
+import agency.services.interfaces.SkillService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -30,39 +32,72 @@ public class HeistMemberServiceImpl implements HeistMemberService {
     private HeistRepository heistRepository;
     private HeistMemberSkillRepository heistMemberSkillRepository;
     private EligibleMembersConverter eligibleMembersConverter;
+    private HeistMemberConverter heistMemberConverter;
+    private SkillService skillService;
+    private EmailService emailService;
 
 
-
-    public HeistMemberServiceImpl(HeistMemberRepository heistMemberRepository, HeistRepository heistRepository,
-                                  HeistSkillRepository heistSkillRepository, HeistMemberSkillRepository heistMemberSkillRepository,
-                                  EligibleMembersConverter eligibleMembersConverter) {
-
+    public HeistMemberServiceImpl(HeistMemberRepository heistMemberRepository, HeistSkillRepository heistSkillRepository, HeistRepository heistRepository, HeistMemberSkillRepository heistMemberSkillRepository,
+                                  EligibleMembersConverter eligibleMembersConverter, HeistMemberConverter heistMemberConverter, SkillService skillService, EmailService emailService) {
         this.heistMemberRepository = heistMemberRepository;
-        this.heistRepository = heistRepository;
         this.heistSkillRepository = heistSkillRepository;
+        this.heistRepository = heistRepository;
         this.heistMemberSkillRepository = heistMemberSkillRepository;
         this.eligibleMembersConverter = eligibleMembersConverter;
-
+        this.heistMemberConverter = heistMemberConverter;
+        this.skillService = skillService;
+        this.emailService = emailService;
     }
 
     @Override
-    public HeistMember saveHeistMember(HeistMember heistMember) {
+    public HeistMember saveHeistMember(HeistMemberDTO heistMemberDTO) {
 
+
+        HeistMember heistMember1 = heistMemberConverter.toEntity(heistMemberDTO);
+
+        heistMemberRepository.save(heistMember1);
+
+        for (HeistMemberSkillDTO skillDTO : heistMemberDTO.getSkills()) {
+            Skill skill = new Skill();
+            skill.setName(skillDTO.getName());
+            skillService.saveSkill(skill);
+        }
+
+        HeistMember heistMember = new HeistMember();
+        heistMember.setEmail(heistMemberDTO.getEmail());
+        heistMember.setName(heistMemberDTO.getName());
+        heistMember.setSex(heistMemberDTO.getSex());
+        heistMember.setStatus(heistMemberDTO.getStatus());
+        heistMember.setMainSkill(new Skill(heistMemberDTO.getMainSkill()));
+
+        heistMemberDTO.getSkills().forEach(memberSkillDTO -> {
+            Skill skill = new Skill();
+            skill.setName(memberSkillDTO.getName());
+
+            HeistMemberSkill heistMemberSkill = new HeistMemberSkill();
+            heistMemberSkill.setLevel(memberSkillDTO.getLevel());
+            heistMemberSkill.setSkill(skill);
+            heistMemberSkill.setMember(heistMember);
+
+        });
+
+        emailService.sendEmailToMember(heistMemberDTO.getEmail());
 
         return heistMemberRepository.save(heistMember);
 
     }
 
     @Override
-    public Optional<HeistMember> findHeistMemberById(String memberId) {
+    public Optional<HeistMember> findHeistMemberById(String email) {
 
-        return heistMemberRepository.findById(memberId);
+        return heistMemberRepository.findById(email);
     }
 
     @Override
     public Optional<HeistMember> findHeistMemberByStatusAndId(String email) {
 
-        if (heistMemberRepository.findById(email).get().getStatus().equals(Status.AVAILABLE) || heistMemberRepository.findById(email).get().getStatus().equals(Status.EXPIRED)) {
+        if (heistMemberRepository.findById(email).get().getStatus().equals(Status.AVAILABLE)
+                || heistMemberRepository.findById(email).get().getStatus().equals(Status.EXPIRED)) {
 
             return heistMemberRepository.findById(email);
 

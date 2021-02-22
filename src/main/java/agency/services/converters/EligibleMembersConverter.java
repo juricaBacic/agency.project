@@ -45,7 +45,6 @@ public class EligibleMembersConverter {
         eligibleMembersDTO.setMembers(heistMembers);
         eligibleMembersDTO.setSkills(heistSkillSet);
 
-
         return  eligibleMembersDTO;
     }
 

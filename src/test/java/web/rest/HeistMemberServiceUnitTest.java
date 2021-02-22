@@ -47,7 +47,7 @@ public class HeistMemberServiceUnitTest {
 
         HeistMember findById = heistMemberRepository.findById(EMAIL).get();
 
-        HeistMember saveHeistMemberService = heistMemberService.saveHeistMember(findById);
+        HeistMember saveHeistMemberService = heistMemberService.saveHeistMember(converterEntityToDto());
 
         heistMemberRepository.saveAndFlush(saveHeistMemberService);
 
@@ -57,6 +57,7 @@ public class HeistMemberServiceUnitTest {
         Assert.assertEquals(findById.getSex(), saveHeistMemberService.getSex());
 
     }
+
 
     @Test
     void findHeistMemberByIdTest(){
