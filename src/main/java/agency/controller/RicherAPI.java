@@ -97,7 +97,7 @@ public class RicherAPI {
         return null;
     }
     @GetMapping("/heist/api/{name}/members")
-    public HeistDTO getHeistWithNameStatusANdSkillsByName(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
+    public HeistDTO getHeistWithNameStatusAndSkillsByName(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
 
         Optional<Heist> heistOptional = heistService.getHeistWithNameStatusAndSkillsByName(name);
 
@@ -109,10 +109,10 @@ public class RicherAPI {
         response.setStatus(404);
         return null;
     }
-    @GetMapping("/heist/api/{name}/skills")
-    public Set<HeistSkillDTO> getHeistSkillByHeistId(@PathVariable String name, HttpServletResponse response) throws URISyntaxException {
+    @GetMapping("/heist/api/{email}/skills")
+    public Set<HeistSkillDTO> getHeistSkillByHeistId(@PathVariable String email, HttpServletResponse response) throws URISyntaxException {
 
-        Set<HeistSkill> heistOptional = heistSkillService.heistSkillByHeistId(name);
+        Set<HeistSkill> heistOptional = heistSkillService.heistSkillByHeistId(email);
 
         Set<HeistSkillDTO> heistSkillDTOS = new HashSet<>();
 

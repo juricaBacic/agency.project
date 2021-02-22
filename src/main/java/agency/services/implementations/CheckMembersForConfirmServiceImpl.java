@@ -31,7 +31,7 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
     }
 
     @Override
-    public HttpStatus checkHeistMembers(List<String> membersList, String name) {
+    public HttpStatus checkAndAddHeistMembersForHeist(List<String> membersList, String name) {
 
         Optional<Heist> checkHeist = heistRepository.findById(name);
         Set<HeistMember> heistMembers = new HashSet<>();

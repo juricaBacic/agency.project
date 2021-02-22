@@ -6,6 +6,7 @@ import agency.entity.HeistMember;
 import agency.entity.HeistMemberSkill;
 import agency.repository.HeistMemberSkillRepository;
 import org.springframework.stereotype.Component;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,7 @@ public class HeistMemberConverter {
         return heistMemberDTO;
 
     }
+
 }
 
 

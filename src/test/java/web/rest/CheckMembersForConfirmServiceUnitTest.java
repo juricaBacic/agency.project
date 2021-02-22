@@ -1,7 +1,6 @@
 package web.rest;
 
 
-import agency.entity.HeistMember;
 import agency.services.interfaces.CheckMembersForConfirmService;
 import org.junit.Assert;
 import agency.ProjectApplication;
@@ -10,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.http.HttpStatus;
-import org.junit.Assert;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +27,7 @@ public class CheckMembersForConfirmServiceUnitTest {
     @Test
      void checkHeistMembersTest(){
 
-        HttpStatus checkHeistMembers = checkMembersForConfirmService.checkHeistMembers(memberList, NAME);
+        HttpStatus checkHeistMembers = checkMembersForConfirmService.checkAndAddHeistMembersForHeist(memberList, NAME);
 
         Assert.assertNotNull(checkHeistMembers);
         Assert.assertEquals(checkHeistMembers, HttpStatus.METHOD_NOT_ALLOWED);

@@ -3,15 +3,14 @@ package agency.controller;
 import agency.dto.HeistDTO;
 import agency.dto.HeistSkillDTO;
 import agency.entity.*;
+import agency.enumeration.OutcomeStatus;
 import agency.services.implementations.HeistStartManuallyImpl;
-import agency.services.interfaces.AutomaticHeistStartService;
-import agency.services.interfaces.HeistService;
-import agency.services.interfaces.HeistSkillService;
-import agency.services.interfaces.SkillService;
+import agency.services.interfaces.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.util.UriEncoder;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -25,13 +24,15 @@ public class HeistController {
     private HeistSkillService heistSkillService;
     private HeistStartManuallyImpl heistStartManually;
     private AutomaticHeistStartService automaticHeistStartService;
+    private HeistOutcomeService heistOutcomeService;
 
-    public HeistController(HeistService heistService,HeistSkillService heistSkillService,
-                           HeistStartManuallyImpl heistStartManually, AutomaticHeistStartService automaticHeistStartService) {
+    public HeistController(HeistService heistService, HeistSkillService heistSkillService,
+                           HeistStartManuallyImpl heistStartManually, AutomaticHeistStartService automaticHeistStartService, HeistOutcomeService heistOutcomeService) {
         this.heistService = heistService;
         this.heistSkillService = heistSkillService;
         this.heistStartManually = heistStartManually;
         this.automaticHeistStartService = automaticHeistStartService;
+        this.heistOutcomeService = heistOutcomeService;
     }
 
     @PostMapping("/heist")
@@ -64,6 +65,20 @@ public class HeistController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
+    }
+
+    @PutMapping("/heist/{name}/outcome")
+    public ResponseEntity<String> outcomeOfHeistStatus (@PathVariable String name) throws URISyntaxException{
+
+        OutcomeStatus outcomeStatus = heistOutcomeService.outcomeOfTheHeist(name);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(new URI("/heist/" + UriEncoder.encode(name) +  "/outcome"));
+
+        if(outcomeStatus != null){
+            return new ResponseEntity<>(outcomeStatus.toString(), headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+        }
     }
 
 }

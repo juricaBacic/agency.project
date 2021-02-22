@@ -100,7 +100,7 @@ public class HeistMemberController {
         return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/heist/{email}")
+    @GetMapping("/heist/find/{email}/member")
     public Optional<HeistMember> findHeistMemberById(@PathVariable String  email){
 
         return  heistMemberService.findHeistMemberByStatusAndId(email);
@@ -114,29 +114,13 @@ public class HeistMemberController {
     }
 
     @PutMapping("/heist/{name}/members")
-    public ResponseEntity<String> checkMembersForHeist (@RequestBody CheckAndConfirmForHeistDTO members, @PathVariable String name) throws URISyntaxException{
+    public ResponseEntity<String> addMembersForHeist (@RequestBody CheckAndConfirmForHeistDTO members, @PathVariable String name){
 
 
-        HttpStatus status = checkMembersForConfirmService.checkHeistMembers(members.getMembers(), name);
-
+        HttpStatus status = checkMembersForConfirmService.checkAndAddHeistMembersForHeist(members.getMembers(), name);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("/heist/" + UriEncoder.encode(name) +  "/members"));
 
         return new ResponseEntity<>(headers, status);
-    }
-
-    @PutMapping("/heist/{name}/outcome")
-    public ResponseEntity<String> outcomeOfMemberStatus (@PathVariable String name) throws URISyntaxException{
-
-        OutcomeStatus outcomeStatus = heistOutcomeService.outcomeOfTheHeist(name);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(new URI("/heist/" + UriEncoder.encode(name) +  "/outcome"));
-
-        if(outcomeStatus != null){
-            return new ResponseEntity<>(outcomeStatus.toString(), headers, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
-        }
     }
 }

@@ -6,14 +6,13 @@ import agency.dto.HeistDTO;
 import agency.dto.HeistSkillDTO;
 import agency.entity.Heist;
 import agency.entity.HeistSkill;
+import agency.enumeration.OutcomeStatus;
 import agency.enumeration.Status;
 import agency.repository.HeistRepository;
 import agency.services.implementations.HeistStartManuallyImpl;
-import agency.services.interfaces.AutomaticHeistStartService;
-import agency.services.interfaces.HeistService;
-import agency.services.interfaces.HeistSkillService;
-import agency.services.interfaces.SkillService;
+import agency.services.interfaces.*;
 import org.checkerframework.checker.units.qual.A;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -21,12 +20,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.yaml.snakeyaml.util.UriEncoder;
+
 import javax.xml.validation.Validator;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
@@ -59,6 +67,8 @@ public class HeistControllerIT {
     private HeistStartManuallyImpl heistStartManually;
     @Autowired
     private AutomaticHeistStartService automaticHeistStartService;
+    @Autowired
+    HeistOutcomeService heistOutcomeService;
 
     private Validator validator;
     private MockMvc heistControllerMvc;
@@ -71,11 +81,13 @@ public class HeistControllerIT {
     private static final Status IN_PROGRESS_STATUS = Status.IN_PROGRESS;
     private static final String SKILL_NAME = "driving";
     private static final String SKILL_LEVEL_FOUR_STAR = "****";
+    private static final String FAILED = "FAILED";
+
 
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        final HeistController heistController = new HeistController( heistService, heistSkillService, heistStartManuallyImpl,automaticHeistStartService );
+        final HeistController heistController = new HeistController( heistService, heistSkillService, heistStartManuallyImpl,automaticHeistStartService,heistOutcomeService );
         this.heistControllerMvc = MockMvcBuilders.standaloneSetup(heistController)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jacksonMessageConverter)
@@ -165,4 +177,22 @@ public class HeistControllerIT {
         assertThat(heist.getStatus().equals(IN_PROGRESS_STATUS));
 
     }
+
+    @Test
+    @Transactional
+    void outcomeOfHeistStatusIT() throws Exception{
+
+        heistControllerMvc.perform(MockMvcRequestBuilders.put("/heist/{name}/outcome", DEFAULT_NAME)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(addNewHeist())))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(status().isOk());
+
+        OutcomeStatus outcomeStatus = heistOutcomeService.outcomeOfTheHeist(DEFAULT_NAME);
+
+        Assert.assertNotNull(outcomeStatus);
+        Assert.assertEquals("FAILED",FAILED);
+    }
+
+
 }

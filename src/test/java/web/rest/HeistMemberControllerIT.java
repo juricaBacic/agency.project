@@ -2,19 +2,13 @@ package web.rest;
 
 import agency.ProjectApplication;
 import agency.controller.HeistMemberController;
-import agency.dto.HeistDTO;
-import agency.dto.HeistMemberDTO;
-import agency.dto.HeistMemberSkillDTO;
-import agency.dto.HeistSkillDTO;
-import agency.entity.HeistMember;
-import agency.entity.HeistMemberSkill;
-import agency.entity.HeistSkill;
+import agency.dto.*;
+import agency.entity.*;
 import agency.enumeration.Sex;
-import agency.enumeration.Status;
 import agency.repository.HeistMemberRepository;
 import agency.repository.HeistMemberSkillRepository;
+import agency.services.converters.HeistMemberConverter;
 import agency.services.interfaces.*;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -30,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.validation.Validator;
 import java.util.Collections;
+
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,16 +55,21 @@ public class HeistMemberControllerIT {
     HeistMemberRepository heistMemberRepository;
     @Autowired
     HeistMemberSkillRepository heistMemberSkillRepository;
+    @Autowired
+    HeistMemberConverter heistMemberConverter;
+
 
     private Validator validator;
     private MockMvc heistMemberControllerMvc;
 
 
     //HeistMember
-    private static final String EMAIL = "Helsinki@ag04.com";
+    private static final String EMAIL = "helsinki@ag04.com";
     private static final String NAME = "Helsinki";
     private static final Sex SEX = Sex.M;
     private static final String MAIN_SKILL_NAME = "combat";
+
+    private static final String DEFAULT_NAME = "Fábrica Nacional de Moneda y Timbre";
 
     //HeistMemberSkill\
     private static final String MEMBER_EMAIL = "Helsinki@ag04.com";
@@ -157,26 +157,78 @@ public class HeistMemberControllerIT {
             assertThat(heistMemberSkill.getSkill().getName().equals(SKILL_COMBAT));
             assertThat(heistMemberSkill.getLevel().equals(FOUR_STAR_LEVEL));
         }
-
-
     }
+
 
     @Test
     @Transactional
     void deleteHeistSkillIT() throws Exception {
 
-        heistMemberControllerMvc.perform(MockMvcRequestBuilders.delete("/member/{email}/skills/{skillName}", MEMBER_EMAIL,SKILL_COMBAT)
+        heistMemberControllerMvc.perform(MockMvcRequestBuilders.delete("/member/{email}/skills/{skillName}", MEMBER_EMAIL, SKILL_COMBAT)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(addNewHeistMember())))
                 .andExpect(status().is2xxSuccessful());
 
         Set<HeistMemberSkill> memberSkillsByMemberEmail = heistMemberSkillRepository.findMemberSkillsByMemberEmail(MEMBER_EMAIL);
 
-        for (HeistMemberSkill hms:memberSkillsByMemberEmail) {
+        for (HeistMemberSkill hms : memberSkillsByMemberEmail) {
 
-            Assert.assertTrue(!hms.getSkill().equals(SKILL_COMBAT));
+            assertThat(!hms.getSkill().equals(SKILL_COMBAT));
 
         }
+    }
+
+
+    @Test
+    @Transactional
+    void findHeistMemberByIdIT() throws Exception {
+
+
+        heistMemberControllerMvc.perform(MockMvcRequestBuilders.get("/heist/find/{email}/member/", EMAIL)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(addNewHeistMember())))
+                .andExpect(status().is2xxSuccessful());
+
+        HeistMember byId = heistMemberRepository.findById(EMAIL).get();
+
+        assertThat(byId.getEmail().equals(EMAIL));
+        assertThat(byId.getSex().equals(SEX));
+        assertThat(byId.getName().equals(NAME));
 
     }
+
+
+    @Test
+    @Transactional
+    void findEligibleHeistMemberIT() throws Exception {
+
+
+        heistMemberControllerMvc.perform(MockMvcRequestBuilders.get("/heist/{name}/eligible_members", DEFAULT_NAME)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(addNewHeistMember())))
+                .andExpect(status().is2xxSuccessful());
+
+        EligibleMembersDTO eligibleHeistMember = heistMemberService.findEligibleHeistMember(DEFAULT_NAME);
+
+        assertThat(eligibleHeistMember.getMembers().equals(EMAIL));
+
+
+    }
+
+
+    @Test
+    @Transactional
+    void addMembersForHeistIT() throws Exception {
+
+
+        heistMemberControllerMvc.perform(MockMvcRequestBuilders.put("/heist/{name}/members", DEFAULT_NAME)
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(addNewHeistMember().getEmail())))
+                .andExpect(status().is4xxClientError());
+
+
+    }
+
+
 }
+

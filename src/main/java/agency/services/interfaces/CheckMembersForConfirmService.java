@@ -7,5 +7,5 @@ import java.util.List;
 public interface CheckMembersForConfirmService {
 
 
-    HttpStatus checkHeistMembers(List<String> membersList, String name);
+    HttpStatus checkAndAddHeistMembersForHeist(List<String> membersList, String name);
 }
