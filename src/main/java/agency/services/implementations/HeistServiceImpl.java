@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class HeistServiceImpl  implements HeistService {
+public class HeistServiceImpl implements HeistService {
 
     private HeistRepository heistRepository;
     private SkillService skillService;
@@ -55,7 +55,7 @@ public class HeistServiceImpl  implements HeistService {
             heistSkillService.saveHeistSkill(heistSkill);
 
         }
-        return  heist;
+        return heist;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class HeistServiceImpl  implements HeistService {
     }
 
     @Override
-    public Optional<Heist>getHeistWithNameStatusAndSkillsByName(String name) {
+    public Optional<Heist> getHeistWithNameStatusAndSkillsByName(String name) {
 
         Optional<Heist> heistById = heistRepository.findById(name);
 
@@ -78,7 +78,7 @@ public class HeistServiceImpl  implements HeistService {
     @Override
     public Optional<Status> getHeistStatusByHeistId(String name) {
 
-        Optional <Status> statusByHeistId = heistRepository.getStatusByHeistId(name);
+        Optional<Status> statusByHeistId = heistRepository.getStatusByHeistId(name);
 
         return statusByHeistId;
     }

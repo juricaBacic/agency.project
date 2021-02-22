@@ -8,12 +8,12 @@ import java.util.Set;
 public interface HeistMemberSkillService {
 
 
-     void saveMemberSkill(HeistMemberSkill heistMemberSkill);
+    void saveMemberSkill(HeistMemberSkill heistMemberSkill);
 
-     void updateMemberSkill(String email, HeistMemberDTO heistMemberDTO);
+    void updateMemberSkill(String email, HeistMemberDTO heistMemberDTO);
 
-     void deleteMemberSkillByMemberAndSkill(String memberName, String skillName);
+    void deleteMemberSkillByMemberAndSkill(String memberName, String skillName);
 
-     Set<HeistMemberSkill> getMemberSkillByMemberId(String email);
+    Set<HeistMemberSkill> getMemberSkillByMemberId(String email);
 
 }

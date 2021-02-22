@@ -44,7 +44,6 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
                 return HttpStatus.METHOD_NOT_ALLOWED;
             }
 
-
             for (String memberName : membersList) {
 
                 HeistMember member = heistMemberRepository.findHeistMemberWhoWillParticipateInHeist(memberName);
@@ -82,7 +81,7 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
             heistMembers1.addAll(heistMembers);
             heist.setStatus(Status.READY);
             heistRepository.save(heist);
-            for (HeistMember heistMemberOne:heistMembers1) {
+            for (HeistMember heistMemberOne : heistMembers1) {
 
                 emailService.sendEmailToMember(heistMemberOne.getEmail());
 

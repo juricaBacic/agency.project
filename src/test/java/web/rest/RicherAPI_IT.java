@@ -1,10 +1,7 @@
 package web.rest;
 
 import agency.ProjectApplication;
-import agency.controller.HeistMemberController;
 import agency.controller.RicherAPI;
-import agency.dto.HeistMemberDTO;
-import agency.dto.HeistMemberSkillDTO;
 import agency.entity.Heist;
 import agency.entity.HeistMember;
 import agency.entity.HeistMemberSkill;
@@ -31,19 +28,11 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.validation.Validator;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;

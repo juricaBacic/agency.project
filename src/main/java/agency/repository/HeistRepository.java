@@ -2,15 +2,12 @@ package agency.repository;
 
 import agency.entity.Heist;
 import agency.enumeration.Status;
-import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
-import static org.hibernate.hql.internal.antlr.HqlTokenTypes.FROM;
-import static org.hibernate.loader.Loader.SELECT;
+
 
 
 @Repository

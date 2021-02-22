@@ -23,7 +23,6 @@ public class HeistSkillServiceImpl implements HeistSkillService {
     SkillService skillService;
 
 
-
     public HeistSkillServiceImpl(HeistSkillRepository heistSkillRepository, HeistRepository heistRepository, SkillService skillService) {
 
 
@@ -69,7 +68,7 @@ public class HeistSkillServiceImpl implements HeistSkillService {
 
         Optional<Heist> findHeistByName = heistRepository.findById(name);
 
-        if (findHeistByName.isPresent()){
+        if (findHeistByName.isPresent()) {
 
             Set<HeistSkill> heistSkillByHeist_name = heistSkillRepository.findHeistSkillByHeist_Name(name);
 
@@ -78,7 +77,7 @@ public class HeistSkillServiceImpl implements HeistSkillService {
         }
 
 
-       return null;
+        return null;
 
 
     }

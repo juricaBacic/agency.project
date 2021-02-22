@@ -15,8 +15,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 public class AutomaticHeistStartServiceUnitTest {
 
 
-
-    private static final  String NAME = "Fábrica Nacional de Moneda y Timbre";
+    private static final String NAME = "Fábrica Nacional de Moneda y Timbre";
     private static final Status STATUS_RDY = Status.READY;
 
 
@@ -26,9 +25,8 @@ public class AutomaticHeistStartServiceUnitTest {
     private AutomaticHeistStartService automaticHeistStartService;
 
 
-
     @Test
-    void startHeistAutomaticallyAndChangeStatusTest(){
+    void startHeistAutomaticallyAndChangeStatusTest() {
 
         Status statusByHeistId = heistRepository.getStatusByHeistId(NAME).get();
 

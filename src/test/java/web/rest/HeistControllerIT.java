@@ -11,7 +11,6 @@ import agency.enumeration.Status;
 import agency.repository.HeistRepository;
 import agency.services.implementations.HeistStartManuallyImpl;
 import agency.services.interfaces.*;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,21 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.yaml.snakeyaml.util.UriEncoder;
 
 import javax.xml.validation.Validator;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
@@ -87,7 +78,7 @@ public class HeistControllerIT {
     @BeforeEach
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
-        final HeistController heistController = new HeistController( heistService, heistSkillService, heistStartManuallyImpl,automaticHeistStartService,heistOutcomeService );
+        final HeistController heistController = new HeistController(heistService, heistSkillService, heistStartManuallyImpl, automaticHeistStartService, heistOutcomeService);
         this.heistControllerMvc = MockMvcBuilders.standaloneSetup(heistController)
                 .setCustomArgumentResolvers(pageableArgumentResolver)
                 .setMessageConverters(jacksonMessageConverter)
@@ -110,7 +101,7 @@ public class HeistControllerIT {
         heistSkillDTO.setLevel(SKILL_LEVEL_FOUR_STAR);
         heistDTO.setSkills(Collections.singleton(heistSkillDTO));
 
-        return heistDTO ;
+        return heistDTO;
 
     }
 
@@ -163,7 +154,7 @@ public class HeistControllerIT {
 
     @Test
     @Transactional
-    void startHeistManuallyIT() throws Exception{
+    void startHeistManuallyIT() throws Exception {
 
         heistStartManually.startHeistManually(DEFAULT_NAME);
 
@@ -180,7 +171,7 @@ public class HeistControllerIT {
 
     @Test
     @Transactional
-    void outcomeOfHeistStatusIT() throws Exception{
+    void outcomeOfHeistStatusIT() throws Exception {
 
         heistControllerMvc.perform(MockMvcRequestBuilders.put("/heist/{name}/outcome", DEFAULT_NAME)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -191,7 +182,7 @@ public class HeistControllerIT {
         OutcomeStatus outcomeStatus = heistOutcomeService.outcomeOfTheHeist(DEFAULT_NAME);
 
         Assert.assertNotNull(outcomeStatus);
-        Assert.assertEquals("FAILED",FAILED);
+        Assert.assertEquals("FAILED", FAILED);
     }
 
 

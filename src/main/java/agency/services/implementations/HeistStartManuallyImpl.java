@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class HeistStartManuallyImpl  implements HeistStartManually {
+public class HeistStartManuallyImpl implements HeistStartManually {
 
 
     private HeistRepository heistRepository;

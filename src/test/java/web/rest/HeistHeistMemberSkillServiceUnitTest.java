@@ -14,19 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 
-import java.util.Optional;
+
 import java.util.Set;
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})
 public class HeistHeistMemberSkillServiceUnitTest {
 
     private static final String HEIST_MEMBER_EMAIL = "helsinki@ag04.com";
-    private static final String HEIST_MEMBER_SKILL ="driving";
-
-
-    /*
-     Set<HeistMemberSkill> getMemberSkillByMemberId(String email);
-     */
+    private static final String HEIST_MEMBER_SKILL = "driving";
 
     @Autowired
     HeistMemberSkillService heistMemberSkillService;
@@ -38,7 +33,7 @@ public class HeistHeistMemberSkillServiceUnitTest {
     HeistMemberRepository heistMemberRepository;
 
     @Test
-    void saveMemberSkillTest(){
+    void saveMemberSkillTest() {
 
         Set<HeistMemberSkill> memberSkillsByHeistMemberEmail = heistMemberSkillRepository.findMemberSkillsByMemberEmail(HEIST_MEMBER_EMAIL);
 
@@ -54,7 +49,7 @@ public class HeistHeistMemberSkillServiceUnitTest {
     }
 
     @Test
-    void updateMemberSkillTest(){
+    void updateMemberSkillTest() {
 
         HeistMember heistMemberById = heistMemberRepository.findById(HEIST_MEMBER_EMAIL).get();
 
@@ -64,7 +59,7 @@ public class HeistHeistMemberSkillServiceUnitTest {
 
         Assert.assertNotNull(heistMemberToDTO);
 
-        heistMemberSkillService.updateMemberSkill(HEIST_MEMBER_EMAIL,heistMemberToDTO);
+        heistMemberSkillService.updateMemberSkill(HEIST_MEMBER_EMAIL, heistMemberToDTO);
 
         Assert.assertNotEquals(heistMemberToDTO.getMainSkill(), heistMemberById.getMainSkill());
 
@@ -73,13 +68,13 @@ public class HeistHeistMemberSkillServiceUnitTest {
 
 
     @Test
-    void deleteMemberSkillTest(){
+    void deleteMemberSkillTest() {
 
         Set<HeistMemberSkill> memberSkillByMemberId = heistMemberSkillService.getMemberSkillByMemberId(HEIST_MEMBER_EMAIL);
 
-        for (HeistMemberSkill heistMemberSkill: memberSkillByMemberId) {
+        for (HeistMemberSkill heistMemberSkill : memberSkillByMemberId) {
 
-            heistMemberSkillService.deleteMemberSkillByMemberAndSkill(HEIST_MEMBER_EMAIL,HEIST_MEMBER_SKILL);
+            heistMemberSkillService.deleteMemberSkillByMemberAndSkill(HEIST_MEMBER_EMAIL, HEIST_MEMBER_SKILL);
 
             Assert.assertTrue(!heistMemberSkill.getSkill().getName().contains(HEIST_MEMBER_SKILL));
 
@@ -88,7 +83,7 @@ public class HeistHeistMemberSkillServiceUnitTest {
     }
 
     @Test
-    void getsHeistMemberSkillBYId(){
+    void getsHeistMemberSkillBYId() {
 
         Set<HeistMemberSkill> memberSkillByMemberId = heistMemberSkillService.getMemberSkillByMemberId(HEIST_MEMBER_EMAIL);
 
@@ -97,7 +92,6 @@ public class HeistHeistMemberSkillServiceUnitTest {
 
 
     }
-
 
 
 }

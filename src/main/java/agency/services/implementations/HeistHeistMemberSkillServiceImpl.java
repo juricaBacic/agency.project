@@ -40,7 +40,6 @@ public class HeistHeistMemberSkillServiceImpl implements HeistMemberSkillService
     }
 
 
-
     @Override
     public void updateMemberSkill(String email, HeistMemberDTO heistMemberDTO) {
 

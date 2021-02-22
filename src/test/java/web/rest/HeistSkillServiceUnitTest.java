@@ -6,7 +6,6 @@ import agency.dto.HeistDTO;
 import agency.dto.HeistSkillDTO;
 import agency.entity.Heist;
 import agency.entity.HeistSkill;
-import agency.entity.Skill;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
 import agency.services.converters.HeistConverter;
@@ -20,7 +19,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @SpringBootTest(classes = {ProjectApplication.class, TestConfiguration.class})

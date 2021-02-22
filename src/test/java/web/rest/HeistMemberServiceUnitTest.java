@@ -28,11 +28,11 @@ public class HeistMemberServiceUnitTest {
 
     private static final String HEIST_MEMBER_NAME = "Helsinki";
     private static final String HEIST_NAME = "Fábrica Nacional de Moneda y Timbre";
-    private static final  String EMAIL = "helsinki@ag04.com";
+    private static final String EMAIL = "helsinki@ag04.com";
     private static final Status STATUS = Status.AVAILABLE;
 
 
-    public HeistMemberDTO converterEntityToDto(){
+    public HeistMemberDTO converterEntityToDto() {
 
         HeistMember heistMember = heistMemberRepository.findById(EMAIL).get();
 
@@ -43,7 +43,7 @@ public class HeistMemberServiceUnitTest {
     }
 
     @Test
-     void saveHeistMemberTest(){
+    void saveHeistMemberTest() {
 
         HeistMember findById = heistMemberRepository.findById(EMAIL).get();
 
@@ -60,7 +60,7 @@ public class HeistMemberServiceUnitTest {
 
 
     @Test
-    void findHeistMemberByIdTest(){
+    void findHeistMemberByIdTest() {
 
         HeistMember heistMemberById = heistMemberService.findHeistMemberById(EMAIL).get();
 
@@ -72,17 +72,17 @@ public class HeistMemberServiceUnitTest {
     }
 
     @Test
-    void findHeistMemberByStatusAndIdTest(){
+    void findHeistMemberByStatusAndIdTest() {
 
         HeistMember heistMemberByStatusAndId = heistMemberService.findHeistMemberByStatusAndId(EMAIL).get();
 
         Assert.assertNotNull(heistMemberByStatusAndId);
         Assert.assertTrue(heistMemberByStatusAndId.getStatus() == STATUS);
-        Assert.assertEquals(heistMemberByStatusAndId.getEmail(),EMAIL);
+        Assert.assertEquals(heistMemberByStatusAndId.getEmail(), EMAIL);
     }
 
     @Test
-    void findEligibleHeistMemberTest(){
+    void findEligibleHeistMemberTest() {
 
         EligibleMembersDTO eligibleHeistMember = heistMemberService.findEligibleHeistMember(HEIST_NAME);
 

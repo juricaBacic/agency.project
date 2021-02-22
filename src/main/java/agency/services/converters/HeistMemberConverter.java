@@ -2,7 +2,6 @@ package agency.services.converters;
 
 import agency.dto.HeistMemberDTO;
 import agency.dto.HeistMemberSkillDTO;
-import agency.dto.SkillDTO;
 import agency.entity.HeistMember;
 import agency.entity.HeistMemberSkill;
 import agency.entity.Skill;
@@ -10,9 +9,7 @@ import agency.repository.HeistMemberSkillRepository;
 import agency.services.interfaces.SkillService;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Component

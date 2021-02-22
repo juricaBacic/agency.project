@@ -2,9 +2,7 @@ package web.rest;
 
 
 import agency.ProjectApplication;
-import agency.entity.Heist;
 import agency.enumeration.OutcomeStatus;
-import agency.enumeration.Status;
 import agency.services.interfaces.HeistOutcomeService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
