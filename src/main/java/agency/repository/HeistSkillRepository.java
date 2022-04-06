@@ -14,5 +14,4 @@ public interface HeistSkillRepository extends JpaRepository<HeistSkill, Long > {
 
     Set<HeistSkill> findHeistSkillByHeist_Name(String name);
 
-
 }
