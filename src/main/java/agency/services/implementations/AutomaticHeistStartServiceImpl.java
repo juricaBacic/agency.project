@@ -2,7 +2,6 @@ package agency.services.implementations;
 
 
 import java.time.LocalDateTime;
-
 import agency.entity.Heist;
 import agency.entity.HeistMember;
 import agency.entity.HeistSkill;
@@ -19,7 +18,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.time.ZoneOffset;
 import java.util.*;
 
@@ -34,7 +32,6 @@ public class AutomaticHeistStartServiceImpl implements AutomaticHeistStartServic
     private HeistMemberSkillRepository heistMemberSkillRepository;
     private HeistSkillRepository heistSkillRepository;
     private Environment env;
-
 
     private Long levelUPTime;
 

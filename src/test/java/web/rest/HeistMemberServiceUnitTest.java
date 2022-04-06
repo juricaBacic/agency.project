@@ -10,6 +10,8 @@ import agency.services.converters.HeistMemberConverter;
 import agency.services.interfaces.HeistMemberService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -31,6 +33,8 @@ public class HeistMemberServiceUnitTest {
     private static final String EMAIL = "helsinki@ag04.com";
     private static final Status STATUS = Status.AVAILABLE;
 
+    public void setUp(){
+    }
 
     public HeistMemberDTO converterEntityToDto() {
 

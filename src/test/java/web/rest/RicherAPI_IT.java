@@ -75,21 +75,15 @@ public class RicherAPI_IT {
     private final static String HEIST_MEMBER_EMAIL = "helsinki@ag04.com";
     private final static String HEIST_NAME = "Fábrica Nacional de Moneda y Timbre";
     private static final Sex SEX = Sex.M;
-    private static final String MAIN_SKILL_NAME = "combat";
     private static final String TWO_STAR_LEVEL = "**";
     private static final String FOUR_STAR_LEVEL = "****";
-    private static final String SKILL_DRIVING = "driving";
-    private static final String SKILL_COMBAT = "combat";
 
 
-    private static final String DEFAULT_NAME = "Fábrica Nacional de Moneda y Timbre";
     private static final LocalDateTime DEFAULT_END_DATE_TIME = LocalDateTime.of(2020, 9, 10, 18, 00, 00);
     private static final String DEFAULT_LOCATION = "Spain";
     private static final LocalDateTime DEFAULT_START_DATE_TIME = LocalDateTime.of(2020, 9, 05, 22, 00, 00);
     private static final Status PLANNING_STATUS = Status.PLANNING;
-    private static final String SKILL_NAME = "driving";
-    private static final String SKILL_LEVEL_FOUR_STAR = "****";
-    private static final String FAILED = "FAILED";
+
 
     @BeforeEach
     public void setup() throws Exception {

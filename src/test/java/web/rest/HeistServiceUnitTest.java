@@ -28,11 +28,6 @@ public class HeistServiceUnitTest {
 
 
     private static final String NAME = "Fábrica Nacional de Moneda y Timbre";
-    private static final String LOCATION = "Madrid";
-    private static final Status STATUS = Status.PLANNING;
-    private static final LocalDateTime START_DATE_TIME = LocalDateTime.of(2020, 5, 15, 12, 10, 1);
-    private static final LocalDateTime END_DATE_TIME = LocalDateTime.of(2020, 5, 16, 11, 15, 35);
-    private static final Status STATUS_AVAILABLE = Status.AVAILABLE;
     private static final Status STATUS_PLANNING = Status.PLANNING;
 
 

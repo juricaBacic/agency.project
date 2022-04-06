@@ -17,14 +17,12 @@ import java.util.Set;
 @Service
 public class HeistSkillServiceImpl implements HeistSkillService {
 
-
     HeistSkillRepository heistSkillRepository;
     HeistRepository heistRepository;
     SkillService skillService;
 
 
     public HeistSkillServiceImpl(HeistSkillRepository heistSkillRepository, HeistRepository heistRepository, SkillService skillService) {
-
 
         this.heistSkillRepository = heistSkillRepository;
         this.heistRepository = heistRepository;
@@ -33,11 +31,7 @@ public class HeistSkillServiceImpl implements HeistSkillService {
     }
 
     @Override
-    public void saveHeistSkill(HeistSkill heistSkill) {
-
-        heistSkillRepository.save(heistSkill);
-
-    }
+    public void saveHeistSkill(HeistSkill heistSkill) { heistSkillRepository.save(heistSkill); }
 
     @Override
     public void updateHeistSkill(HeistDTO heistDTO, String name) {
@@ -75,10 +69,6 @@ public class HeistSkillServiceImpl implements HeistSkillService {
             return heistSkillByHeist_name;
 
         }
-
-
         return null;
-
-
     }
 }

@@ -1,5 +1,6 @@
 package agency.services.implementations;
 
+import agency.dto.HeistMemberDTO;
 import agency.entity.Heist;
 import agency.entity.HeistMember;
 import agency.entity.HeistSkill;
@@ -8,6 +9,7 @@ import agency.enumeration.Status;
 import agency.repository.HeistMemberRepository;
 import agency.repository.HeistRepository;
 import agency.repository.HeistSkillRepository;
+import agency.repository.SkillRepository;
 import agency.services.interfaces.HeistOutcomeService;
 import org.springframework.stereotype.Service;
 

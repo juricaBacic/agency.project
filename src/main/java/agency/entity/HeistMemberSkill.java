@@ -19,8 +19,7 @@ public class HeistMemberSkill {
     private String level;
 
     private long time = 0;
-
-
+    
     public HeistMember getMember() {
         return member;
     }

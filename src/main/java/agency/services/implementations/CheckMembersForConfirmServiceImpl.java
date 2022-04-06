@@ -39,22 +39,17 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
         if (checkHeist.isPresent()) {
 
             Heist heist = checkHeist.get();
-            if (!heist.getStatus().equals(Status.PLANNING)) {
-
-                return HttpStatus.METHOD_NOT_ALLOWED;
-            }
+            if (!heist.getStatus().equals(Status.PLANNING)) { return HttpStatus.METHOD_NOT_ALLOWED; }
 
             for (String memberName : membersList) {
 
                 HeistMember member = heistMemberRepository.findHeistMemberWhoWillParticipateInHeist(memberName);
 
-
                 if (member != null) {
 
-                    if (CollectionUtils.isEmpty(member.getHeists())) {
+                    if (CollectionUtils.isEmpty(member.getHeists())){ heistMembers.add(member);}
 
-                        heistMembers.add(member);
-                    } else {
+                    else {
 
                         for (Heist assignedHeist : member.getHeists()) {
 
@@ -63,18 +58,10 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
 
                                 return HttpStatus.BAD_REQUEST;
 
-                            } else {
-
-                                heistMembers.add(member);
-
-                            }
-                        }
+                            } else  heistMembers.add(member); }
                     }
 
-
-                } else {
-                    return HttpStatus.BAD_REQUEST;
-                }
+                } else return HttpStatus.BAD_REQUEST;
             }
 
             Set<HeistMember> heistMembers1 = heist.getHeistMembers();
@@ -83,13 +70,10 @@ public class CheckMembersForConfirmServiceImpl implements CheckMembersForConfirm
             heistRepository.save(heist);
             for (HeistMember heistMemberOne : heistMembers1) {
 
-                emailService.sendEmailToMember(heistMemberOne.getEmail());
+                emailService.sendEmailToMember(heistMemberOne.getEmail()); }
 
-            }
             return HttpStatus.NO_CONTENT;
 
-        } else {
-            return HttpStatus.NOT_FOUND;
-        }
+        } else { return HttpStatus.NOT_FOUND; }
     }
 }

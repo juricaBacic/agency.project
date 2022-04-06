@@ -17,7 +17,7 @@ public class HeistMemberConverter {
 
     HeistMemberSkillRepository heistMemberSkillRepository;
     MemberSkillConverter memberSkillConverter;
-    SkillService skillService;
+
 
     public HeistMemberConverter(HeistMemberSkillRepository heistMemberSkillRepository, MemberSkillConverter memberSkillConverter) {
         this.heistMemberSkillRepository = heistMemberSkillRepository;

@@ -121,7 +121,6 @@ public class HeistMemberServiceImpl implements HeistMemberService {
 
             Set<HeistMember> heistMembersByStatus = heistMemberRepository.findHeistMemberByStatusOrStatus(Status.AVAILABLE, Status.EXPIRED);
 
-
             for (HeistMember heistMember : heistMembersByStatus) {
 
                 Set<HeistMemberSkill> memberSkillByHeistMember = heistMemberSkillRepository.findMemberSkillsByMember(heistMember);

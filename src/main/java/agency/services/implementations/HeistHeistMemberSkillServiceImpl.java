@@ -48,6 +48,7 @@ public class HeistHeistMemberSkillServiceImpl implements HeistMemberSkillService
         if (optionalHeistMember.isPresent()) {
 
             heistMemberDTO.getSkills().forEach(memberSkillDTO -> {
+
                 Skill skill = new Skill();
                 skill.setName(memberSkillDTO.getName());
                 skillService.saveSkill(skill);
